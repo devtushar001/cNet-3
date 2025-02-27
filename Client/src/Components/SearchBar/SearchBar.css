@@ -1,0 +1,18 @@
+.search-bar {
+  width: 75vw;
+  margin: 0 auto;
+  margin-bottom: 45px;
+  display: grid;
+  grid-template-columns: 0.5fr 120px;
+  gap: 10px;
+}
+
+#open-search {
+  grid-template-columns: 1fr 120px;
+}
+
+.search-bar input {
+  height: 35px;
+  padding: 0px 12px;
+  outline-color: rgb(0, 126, 0);
+}
