@@ -8,7 +8,6 @@ const ImageUploader = ({ object, imageSelector }) => {
     const [images, setImages] = useState([]);
     const { backend_url } = useContext(TShakyaContext);
 
-    // Fetch images from backend
     const fetchImages = async () => {
         try {
             const response = await fetch(`${backend_url}/api/images/image`);
@@ -22,12 +21,10 @@ const ImageUploader = ({ object, imageSelector }) => {
         }
     };
 
-    // Fetch images on component mount
     useEffect(() => {
         fetchImages();
     }, []);
 
-    // Handle image upload
     const handleUpload = async () => {
         if (!image) return toast.error("Please select an image");
 
@@ -45,14 +42,12 @@ const ImageUploader = ({ object, imageSelector }) => {
             const data = await response.json();
             toast.success(data.message);
             setImage(null);
-            document.querySelector('input[type="file"]').value = ""; // Clear input
             fetchImages();
         } catch (error) {
             toast.error(error.message);
         }
     };
 
-    // Handle image delete
     const handleDelete = async (id) => {
         if (!window.confirm("Are you sure you want to delete this image?")) return;
 
@@ -66,17 +61,26 @@ const ImageUploader = ({ object, imageSelector }) => {
             if (!response.ok) throw new Error("Failed to delete image");
 
             toast.success("Image deleted successfully!");
-            setImages(images.filter((img) => img._id !== id)); // Remove deleted image locally
+            setImages((prev) => prev.filter((img) => img._id !== id));
         } catch (error) {
             console.error("Delete error:", error);
             toast.error("Failed to delete image");
         }
     };
 
+    const handleImageSelect = (imgUrl) => {
+        imageSelector((prev) => ({
+            ...prev,
+            image: object.type === "multiple" ? [...(prev.image || []), imgUrl] : imgUrl,
+        }));
+    };
+
     return (
         <div className="image-uploader">
-            <button onClick={() => imageSelector((prev) => ({ ...prev, selection: false }))}>Close</button>
-            
+            <button onClick={() => imageSelector((prev) => ({ ...prev, selection: false }))}>
+                Close
+            </button>
+
             <div className="inputs">
                 <input type="file" onChange={(e) => setImage(e.target.files[0])} />
                 <button onClick={handleUpload}>Upload</button>
@@ -89,19 +93,12 @@ const ImageUploader = ({ object, imageSelector }) => {
                     <div className="image-container">
                         {images.map((img) => (
                             <div className="single-image-grid" key={img._id}>
-                                <img src={img.imageUrl} alt="Uploaded" height="250px" />
+                                <img src={img.imageUrl} alt="Uploaded" />
                                 <div className="buttons">
                                     <button onClick={() => handleDelete(img._id)}>Delete</button>
-                                    {object.type === "single" && (
-                                        <button
-                                            onClick={() => {
-                                                imageSelector((prev) => ({ ...prev, image: img.imageUrl }));
-                                                imageSelector((prev) => ({ ...prev, selection: false }));
-                                            }}
-                                        >
-                                            Use
-                                        </button>
-                                    )}
+                                    <button onClick={() => handleImageSelect(img.imageUrl)}>
+                                        Use
+                                    </button>
                                 </div>
                             </div>
                         ))}

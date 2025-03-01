@@ -7,14 +7,17 @@ const Sidebar = () => {
         <>
             <div className="sidebar">
                 <div className="buttons">
-                    <button>
-                        <Link className="no-style" to="/add-products">
+
+                    <Link className="no-style" to="/add-products">
+                        <button>
                             Add Products
-                        </Link>
-                    </button>
-                    <button>
-                        Add Blogs
-                    </button>
+                        </button>
+                    </Link>
+                    <Link className="no-style" to="/add-blogs">
+                        <button>
+                            Add Blogs
+                        </button>
+                    </Link>
                     <button>
                         Orders
                     </button>

@@ -5,6 +5,7 @@ import Products from './Pages/Products/Products';
 import Navbar from './Components/Navbar/Navbar';
 import Sidebar from './Components/Sidebar/Sidebar';
 import { ToastContainer } from 'react-toastify';
+import Blogs from './Pages/Blogs/Blogs';
 
 function App() {
 
@@ -16,6 +17,7 @@ function App() {
       <Routes >
         <Route path='/' element={<Home />} />
         <Route path='/add-products' element={<Products />} />
+        <Route path='/add-blogs' element={<Blogs/>} />
       </Routes>
     </>
   )
