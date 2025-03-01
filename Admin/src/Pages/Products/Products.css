@@ -4,6 +4,19 @@
     margin: 10px 12px auto 210px;
     font-family: Arial, sans-serif;
     padding: 20px;
+    position: relative;
+}
+
+.add-product #create-product {
+    position: fixed;
+    top: 300px;
+    right: 50px;
+    padding: 7px 30px;
+    border: none;
+    background: #ff6600;
+    color: #fff;
+    cursor: pointer;
+    z-index: 12;
 }
 
 .add-product .category-contianer {

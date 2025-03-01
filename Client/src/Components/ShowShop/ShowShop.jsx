@@ -1,20 +1,21 @@
 import React, { useContext, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { productData } from "../../assets/escomData";
+// import { productData } from "../../assets/escomData";
 import "./ShowShop.css";
 import { EscomContext } from "../../Context/escomContext";
 import { toast } from "react-toastify";
 
 const ShowShop = () => {
     const { shopId } = useParams();
-    const { addToCart, removeFromCart, cartData, token } = useContext(EscomContext);
+    const { addToCart, removeFromCart, cartData, token, productData } = useContext(EscomContext);
     const navigate = useNavigate();
 
     useEffect(() => {
-        console.log(cartData);
-    }, [cartData]);
+        console.log(shopId)
+        console.log(productData)
+    }, []);
 
-    const singleProduct = productData.find((data) => Number(data._id) === Number(shopId));
+    const singleProduct = productData.find((data) => data._id === shopId);
 
     useEffect(() => {
         window.scrollTo(0, 0);
@@ -59,7 +60,7 @@ const ShowShop = () => {
                 },
                 body: JSON.stringify({ productId })
             });
-           
+
             const data = await response.json();
             if (!data.success) {
                 toast.error("Cart data not found.");

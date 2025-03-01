@@ -14,7 +14,7 @@ const EscomContextProvider = ({ children }) => {
   const [searchPage, setSearchPage] = useState(false);
   const [getValue, setGetValue] = useState([]);
   const [cartData, setCartData] = useState([]);
-
+  const [productData, setProductData] = useState([]);
   const [courseCat, setCourseCat] = useState('All');
   const [blogCat, setBlogCat] = useState('All');
   const [shopCat, setShopCat] = useState('All');
@@ -150,7 +150,9 @@ const EscomContextProvider = ({ children }) => {
     removeFromCart,
     cartData,
     user,
-    token
+    token,
+    productData,
+    setProductData
   };
 
   return (

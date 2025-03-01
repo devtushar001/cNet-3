@@ -495,3 +495,29 @@ export const productData = [
     createdAt: "2025-02-18T17:00:00Z"
   }
 ];
+
+
+// 
+// const data = async () => {
+//   try {
+//     const response = await fetch("http://localhost:10017/api/shop-products/get-all", {
+//       method: "GET",
+//       headers: {
+//         "Content-Type": "application/json",
+//       },
+//     });
+
+//     if (!response.ok) {
+//       throw new Error(`HTTP error! Status: ${response.status}`);
+//     }
+
+//     const result = await response.json();
+//     console.log(result);
+//     return result.data;
+//   } catch (error) {
+
+//     console.error("Error fetching data:", error);
+//   }
+// };
+
+// export const productData = data();

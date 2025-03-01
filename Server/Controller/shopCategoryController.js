@@ -5,7 +5,7 @@ export const createShopCategoryController = async (req, res) => {
     try {
         const { shopCategoryName,
             shopCategoryImage } = req.body;
-
+console.log(req.body)
         if (!shopCategoryName || !shopCategoryImage) {
             return res.status(404).json({
                 success: false,

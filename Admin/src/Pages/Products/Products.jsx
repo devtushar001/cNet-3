@@ -6,79 +6,80 @@ import ImageUploader from "../../Components/ImageUploader/ImageUploader";
 import TextEditor from "../../Components/TextEditor/TextEditor";
 
 const Products = () => {
-    const { backend_url } = useContext(TShakyaContext);
+    const { backend_url, content } = useContext(TShakyaContext);
     const [fetchData, setFetchData] = useState([]);
     const [selectedCategory, setSelectedCategory] = useState("");
 
-    const [categoryImage, setCategoryImage] = useState({
-        type: "single",
-        selection: false,
-        image: null
-    });
+    const [categoryImage, setCategoryImage] = useState({ type: "single", selection: false, image: null });
+    const [featuredImage, setFeaturedImage] = useState({ type: "single", selection: false, image: null });
+    const [galleryImage, setGalleryImage] = useState({ type: "multiple", selection: false, image: [] });
 
-    const [featuredImage, setFeaturedImage] = useState({
-        type: "single",
-        selection: false,
-        image: null
-    });
-
-    const [galleryImage, setGalleryImage] = useState({
-        type: "multiple",
-        selection: false,
-        image: []
-    });
-
-    const [shopCategory, setShopCategory] = useState({
-        shopCategoryName: "",
-        shopCategoryImage: null,
-    });
-
-
+    const [shopCategory, setShopCategory] = useState({ shopCategoryName: "", shopCategoryImage: null });
     const [shopProduct, setShopProduct] = useState({
-        featuredImg: "",
-        galleryImg: galleryImage.image,
+        featuredImg: null,
+        galleryImg: [],
         title: "",
         shopCategory: "",
         brand: "",
         stock: "",
         price: "",
         description: "",
-        content: ""
+        content: "",
     });
 
     useEffect(() => {
-        console.log(shopProduct)
-    },[shopProduct])
+        setShopProduct((prev) => ({
+            ...prev,
+            featuredImg: featuredImage.image,
+            galleryImg: galleryImage.image,
+            content: content
+        }));
+    }, [featuredImage.image, galleryImage.image, content]);
 
     useEffect(() => {
         const fetchShopCategory = async () => {
             try {
                 const response = await fetch(`${backend_url}/api/shop-category/get-all`);
                 const result = await response.json();
-
-                if (!result.success) {
+                if (result.success) {
+                    setFetchData(result.shopCategories);
+                } else {
                     toast.error(result.message);
-                    return;
                 }
-
-                setFetchData(result.shopCategories);
-            } catch (error) {
+            } catch {
                 toast.error("Error fetching categories");
             }
         };
-
         fetchShopCategory();
     }, [backend_url]);
 
-    const createShopCategory = async () => {
-        if (!shopCategory.shopCategoryName.trim()) {
-            toast.error("Category name is required");
-            return;
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setShopProduct((prev) => ({ ...prev, [name]: value }));
+    };
+
+    const createNewProduct = async () => {
+        if (!shopProduct.title || !shopProduct.shopCategory || !shopProduct.price || !shopProduct.stock || !shopProduct.description || !shopProduct.featuredImg) {
+            return toast.error("Please fill all required fields");
         }
 
-        if (!categoryImage.image) {
-            toast.error("Please upload an image");
-            return;
+        try {
+            const response = await fetch(`${backend_url}/api/shop-products/add`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(shopProduct),
+            });
+
+            const data = await response.json();
+            data.success ? toast.success(data.message) : toast.error(data.message);
+        } catch {
+            toast.error("Failed to create product");
+        }
+    };
+
+    const createShopCategory = async () => {
+        if (!shopCategory.shopCategoryName.trim() || !categoryImage.image) {
+            return toast.error("Category name and image are required");
         }
 
         try {
@@ -92,26 +93,25 @@ const Products = () => {
             });
 
             const data = await response.json();
-
-            if (!data.success) {
+            if (data.success) {
+                toast.success(data.message);
+                setFetchData([...fetchData, { _id: data.category._id, shopCategoryName: data.category.shopCategoryName }]);
+                setShopCategory({ shopCategoryName: "", shopCategoryImage: null });
+                setCategoryImage({ type: "single", selection: false, image: null });
+            } else {
                 toast.error(data.message);
-                return;
             }
-
-            toast.success(data.message);
-
-            setFetchData((prev) => [...prev, { shopCategoryName: shopCategory.shopCategoryName }]);
-
-            setShopCategory({ shopCategoryName: "", shopCategoryImage: null });
-            setCategoryImage({ type: "single", selection: false, image: null });
-
-        } catch (error) {
+        } catch {
             toast.error("Failed to create category");
         }
     };
 
     return (
         <div className="add-product">
+            {shopProduct.title && shopProduct.shopCategory && shopProduct.price && shopProduct.stock && shopProduct.description && shopProduct.featuredImg && (
+                <button id="create-product" onClick={createNewProduct}>Create Product</button>
+            )}
+
             <div className="category-contianer">
                 <div className="create-new-category">
                     <h2>Create new category</h2>
@@ -122,72 +122,53 @@ const Products = () => {
                                 <button onClick={() => setCategoryImage({ type: "single", selection: false, image: null })}>Remove</button>
                             </>
                         ) : (
-                            <input
-                                type="submit"
-                                value="Select image"
-                                onClick={() => setCategoryImage((prev) => ({ ...prev, selection: true }))}
-                            />
+                            <input type="submit" value="Select image" onClick={() => setCategoryImage((prev) => ({ ...prev, selection: true }))} />
                         )}
                     </div>
                     <div className="category-data">
-                        <input
-                            type="text"
-                            placeholder="Enter category name"
-                            value={shopCategory.shopCategoryName}
-                            onChange={(e) => setShopCategory((prev) => ({ ...prev, shopCategoryName: e.target.value }))}
-                        />
+                        <input type="text" placeholder="Enter category name" value={shopCategory.shopCategoryName} onChange={(e) => setShopCategory((prev) => ({ ...prev, shopCategoryName: e.target.value }))} />
                         <button onClick={createShopCategory}>Submit</button>
                     </div>
                 </div>
             </div>
             {categoryImage.selection && <ImageUploader object={categoryImage} imageSelector={setCategoryImage} />}
+
             <div className="product-content">
                 <div className="fetuered-image">
                     {featuredImage.image ? (
                         <>
-                            <img src={featuredImage.image} alt="Category" onChange={(e) => { setShopCategory((prev) => ({ ...prev, featuredImg: featuredImage.img })) }} />
+                            <img src={featuredImage.image} alt="Featured" />
                             <button onClick={() => setFeaturedImage({ type: "single", selection: false, image: null })}>Remove</button>
                         </>
                     ) : (
-                        <input
-                            type="submit"
-                            value="Select image"
-                            onClick={() => setFeaturedImage((prev) => ({ ...prev, selection: true }))}
-                        />
+                        <input type="submit" value="Select image" onClick={() => setFeaturedImage((prev) => ({ ...prev, selection: true }))} />
                     )}
                 </div>
-                <input onChange={(e) => { setShopProduct((prev) => ({ ...prev, title: e.target.value })) }} id="title" type="text" placeholder="Enter product title" />
                 {featuredImage.selection && <ImageUploader object={featuredImage} imageSelector={setFeaturedImage} />}
+                <input name="title" value={shopProduct.title} onChange={handleChange} id="title" type="text" placeholder="Enter product title" />
                 <TextEditor />
             </div>
+
             <div className="others-details">
                 <div className="inputs">
-                    <select
-                        name="category"
-                        id="category"
-                        value={selectedCategory}
-                        onChange={(e) => setShopProduct((prev) => ({ ...prev, shopCategory: e.target.value }))}
-                    >
-                        <option value="">Select a category</option>
-                        {fetchData.map((item, i) => (
-                            <option key={i} value={item.shopCategoryName}>{item.shopCategoryName}</option>
+                    <select name="shopCategory" id="category" value={shopProduct.shopCategory} onChange={handleChange}>
+                        <option>Select a category</option>
+                        {fetchData.map((item) => (
+                            <option key={item._id} value={item.shopCategoryName}>{item.shopCategoryName}</option>
                         ))}
                     </select>
-                    <input value={shopProduct.brand} onChange={(e) => setShopProduct((prev) => ({ ...prev, brand: e.target.value }))} type="text" placeholder="Brand" />
-                    <input value={shopProduct.stock} onChange={(e) => setShopProduct((prev) => ({ ...prev, stock: e.target.value }))} type="number" placeholder="Stock" />
-                    <input value={shopProduct.price} onChange={(e) => setShopProduct((prev) => ({ ...prev, price: e.target.value }))} type="number" placeholder="Price" />
+                    <input name="brand" value={shopProduct.brand} onChange={handleChange} type="text" placeholder="Brand" />
+                    <input name="stock" value={shopProduct.stock} onChange={handleChange} type="number" placeholder="Stock" />
+                    <input name="price" value={shopProduct.price} onChange={handleChange} type="number" placeholder="Price" />
                 </div>
-                <textarea value={shopProduct.description} onChange={(e) => setShopProduct((prev) => ({ ...prev, description: e.target.value }))} placeholder="Description" name="description" id="description"></textarea>
+                <textarea name="description" value={shopProduct.description} onChange={handleChange} placeholder="Description" />
             </div>
+
             <div className="gallery-images">
                 <button id="gallry" onClick={() => setGalleryImage((prev) => ({ ...prev, selection: true }))}>Add gallery</button>
-                {galleryImage.image.map((item, i) => {
-                    return (
-                        <img src={item} key={i} />
-                    )
-                })}
-                {galleryImage.selection && <ImageUploader object={galleryImage} imageSelector={setGalleryImage} />}
+                {galleryImage.image.map((img, i) => <img src={img} key={i} alt="Gallery" />)}
             </div>
+            {galleryImage.selection && <ImageUploader object={galleryImage} imageSelector={setGalleryImage} />}
         </div>
     );
 };
