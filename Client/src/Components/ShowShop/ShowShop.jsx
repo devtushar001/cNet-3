@@ -103,63 +103,69 @@ const ShowShop = () => {
 
 
     return (
-        <div className="show-shop-product">
-            <div className="left-cont">
-                <img src={singleProduct?.featuredImg} alt={singleProduct?.title || "Product Image"} />
-                <div className="gallery-image">
-                    {singleProduct?.galleryImg?.map((single_img, i) => (
-                        <img key={i} src={single_img} alt={`Gallery ${i}`} />
-                    ))}
-                </div>
-            </div>
-            <div className="right-cont">
-                <h1>{singleProduct?.title}</h1>
-                <span>{readableDate}</span>
-                <p>{singleProduct?.description}</p>
-                <p>Category: {singleProduct?.category}</p>
-                <p>Brand: {singleProduct?.brand}</p>
-                <br />
-                <span>Available Stock: {singleProduct.stock}</span>
-                <h2>&#8377; {singleProduct?.price}</h2>
-
-                <div className="quantity">
-                    {cartQuantity > 0 && (
-                        <div onClick={() => { removeFromCart(singleProduct._id), updateCartOnRemove(singleProduct._id) }}>-</div>
-                    )}
-
-                    <div>{cartQuantity}</div>
-
-                    <div
-                        onClick={() => { addToCart(singleProduct._id); updateCartOnAdd(singleProduct._id) }}
-                        style={{
-                            pointerEvents: isOutOfStock ? "none" : "auto",
-                            opacity: isOutOfStock ? 0.2 : 1,
-                        }}
-                    >
-                        +
+        <>
+            <div className="show-shop-product">
+                <div className="left-cont">
+                    <img src={singleProduct?.featuredImg} alt={singleProduct?.title || "Product Image"} />
+                    <div className="gallery-image">
+                        {singleProduct?.galleryImg?.map((single_img, i) => (
+                            <img key={i} src={single_img} alt={`Gallery ${i}`} />
+                        ))}
                     </div>
                 </div>
+                <div className="right-cont">
+                    <h1 style={{fontSize: "39px", fontWeight: "bold", fontFamily: "Arial"}}>{singleProduct?.title}</h1>
+                    <span>{readableDate}</span>
+                    <p>{singleProduct?.description}</p>
+                    <p>Category: {singleProduct?.category}</p>
+                    <p>Brand: {singleProduct?.brand}</p>
+                    <br />
+                    <span>Available Stock: {singleProduct.stock}</span>
+                    <h2>&#8377; {singleProduct?.price}</h2>
 
-                <div className="buttons">
-                    <button
-                        onClick={() => { addToCart(singleProduct._id); updateCartOnAdd(singleProduct._id) }}
-                        style={{
-                            pointerEvents: isOutOfStock ? "none" : "auto",
-                            opacity: isOutOfStock ? 0.2 : 1,
-                        }}
-                    >
-                        Add to cart
-                    </button>
-                    <button
-                        onClick={() => handlePurchase(singleProduct._id)}
-                        style={{ opacity: cartQuantity === 0 ? 0.2 : 1 }}
-                        disabled={cartQuantity === 0}
-                    >
-                        Purchase
-                    </button>
+                    <div className="quantity">
+                        {cartQuantity > 0 && (
+                            <div onClick={() => { removeFromCart(singleProduct._id), updateCartOnRemove(singleProduct._id) }}>-</div>
+                        )}
+
+                        <div>{cartQuantity}</div>
+
+                        <div
+                            onClick={() => { addToCart(singleProduct._id); updateCartOnAdd(singleProduct._id) }}
+                            style={{
+                                pointerEvents: isOutOfStock ? "none" : "auto",
+                                opacity: isOutOfStock ? 0.2 : 1,
+                            }}
+                        >
+                            +
+                        </div>
+                    </div>
+
+                    <div className="buttons">
+                        <button
+                            onClick={() => { addToCart(singleProduct._id); updateCartOnAdd(singleProduct._id) }}
+                            style={{
+                                pointerEvents: isOutOfStock ? "none" : "auto",
+                                opacity: isOutOfStock ? 0.2 : 1,
+                            }}
+                        >
+                            Add to cart
+                        </button>
+                        <button
+                            onClick={() => handlePurchase(singleProduct._id)}
+                            style={{ opacity: cartQuantity === 0 ? 0.2 : 1 }}
+                            disabled={cartQuantity === 0}
+                        >
+                            Purchase
+                        </button>
+                    </div>
                 </div>
+                 <div className="dengerous-html">
+                <div dangerouslySetInnerHTML={{ __html: singleProduct.content }} />
             </div>
-        </div>
+            </div>
+           
+        </>
     );
 };
 

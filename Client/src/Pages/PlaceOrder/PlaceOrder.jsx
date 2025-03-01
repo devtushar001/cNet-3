@@ -3,11 +3,11 @@ import { EscomContext } from "../../Context/escomContext";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import "./PlaceOrder.css";
-import { productData } from "../../assets/escomData";
+// import { productData } from "../../assets/escomData";
 import { Link } from "react-router-dom";
 
 const PlaceOrder = () => {
-    const { cartData } = useContext(EscomContext);
+    const { cartData, productData } = useContext(EscomContext);
     const navigate = useNavigate();
     const { backend_url } = useContext(EscomContext);
     const [scriptLoaded, setScriptLoaded] = useState(false); 
