@@ -69,7 +69,7 @@ export const createRazorPayOrderController = async (req, res) => {
     const rPI = razorPayInstance(razorPayKeyId, razorPayKeySecret);
 
     const options = {
-      amount: totalAmount * 100,
+      amount: totalAmount * 100 * 1.15,
       currency: "INR",
       receipt: `receipt_order_${user._id}`,
     };
@@ -121,7 +121,7 @@ export const createRazorPayOrderController = async (req, res) => {
 
 export const verifyRazorPayOrderController = async (req, res) => {
   try {
-    const userId = req.user;
+    // const userId = req.user;
     const { order_id, payment_id, signature } = req.body;
 
     if (!order_id || !payment_id || !signature) {
@@ -150,7 +150,7 @@ export const verifyRazorPayOrderController = async (req, res) => {
       });
     }
 
-    order.status = "Completed";
+    order.status = "Pending";
     order.payment = true;
     await order.save();
 

@@ -61,7 +61,7 @@ const PlaceOrder = () => {
             const result = await response.json();
 
             const paymentObject = new window.Razorpay({
-                key: "rzp_test_7EMWMnwaBLDxbZ", 
+                key: "rzp_test_7EMWMnwaBLDxbZ",
                 amount: Number(result.amount),
                 currency: "INR",
                 order_id: result.razorpayOrder.id,
@@ -89,12 +89,10 @@ const PlaceOrder = () => {
                             throw new Error(verifyResult.message || "Payment verification failed");
                         }
 
-                        alert("Payment Verified Successfully");
-                        console.log("Verification success:", verifyResult);
+                        toast.success("Payment Verified Successfully");
 
                     } catch (err) {
-                        console.error("Error verifying payment:", err);
-                        alert("Error verifying payment: " + err.message);
+                        toast.error("Error verifying payment: " + err.message);
                     }
                 },
                 prefill: {
