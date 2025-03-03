@@ -51,7 +51,7 @@ const Products = () => {
             }
         };
         fetchShopCategory();
-    }, [backend_url]);
+    }, []);
 
     const handleChange = (e) => {
         const { name, value } = e.target;

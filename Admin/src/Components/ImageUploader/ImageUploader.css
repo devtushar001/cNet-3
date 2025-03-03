@@ -1,6 +1,6 @@
 .image-uploader .outputs .image-container {
   display: flex;
-  flex-wrap: nowrap; 
+  flex-wrap: wrap; 
   flex-direction: row; 
   gap: 10px;
   max-height: 300px; 

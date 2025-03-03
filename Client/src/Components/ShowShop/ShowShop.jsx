@@ -117,7 +117,7 @@ const ShowShop = () => {
                     <h1 style={{fontSize: "39px", fontWeight: "bold", fontFamily: "Arial"}}>{singleProduct?.title}</h1>
                     <span>{readableDate}</span>
                     <p>{singleProduct?.description}</p>
-                    <p>Category: {singleProduct?.category}</p>
+                    <p>Category: {singleProduct?.shopCategory}</p>
                     <p>Brand: {singleProduct?.brand}</p>
                     <br />
                     <span>Available Stock: {singleProduct.stock}</span>
