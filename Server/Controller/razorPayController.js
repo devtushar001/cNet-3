@@ -50,7 +50,7 @@ export const createRazorPayOrderController = async (req, res) => {
     for (const item of userCartData) {
       const product = await shopProductModel.findById(item.productId);
       if (product) {
-        totalAmount += product.price * item.quantity;
+        totalAmount += Number(product.price) * Number(item.quantity);
         productDetails.push({
           productId: item.productId,
           quantity: item.quantity,
@@ -64,12 +64,10 @@ export const createRazorPayOrderController = async (req, res) => {
       }
     }
 
-    console.log("Total amount:", totalAmount);
-
     const rPI = razorPayInstance(razorPayKeyId, razorPayKeySecret);
 
     const options = {
-      amount: totalAmount * 100 * 1.15,
+      amount: Number(totalAmount * 100),
       currency: "INR",
       receipt: `receipt_order_${user._id}`,
     };
@@ -101,6 +99,7 @@ export const createRazorPayOrderController = async (req, res) => {
     });
 
     await newOrder.save();
+    console.log(newOrder);
 
     return res.status(200).json({
       success: true,

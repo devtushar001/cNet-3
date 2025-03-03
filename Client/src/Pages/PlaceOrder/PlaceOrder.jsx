@@ -31,6 +31,11 @@ const PlaceOrder = () => {
     };
 
     const cartItems = getCartItems();
+
+    useEffect(() => {
+        console.log(cartItems);
+    }, [])
+
     const totalPrice = cartItems.reduce((total, item) => total + (item.price * item.quantity), 0);
 
     const razorPayScript = (src) => {
@@ -53,7 +58,7 @@ const PlaceOrder = () => {
                 },
                 body: JSON.stringify(data),
             });
-
+            console.log(response);
             if (!response.ok) {
                 throw new Error("Failed to create Razorpay order");
             }
@@ -101,7 +106,7 @@ const PlaceOrder = () => {
                     contact: "1234567890",
                 },
                 theme: {
-                    color: "#F37254",
+                    color: "#00506e",
                 },
             });
 
@@ -149,12 +154,12 @@ const PlaceOrder = () => {
                             <hr />
                             <div className="cart-amount">
                                 <p>Shipping Charge</p>
-                                <p>&#8377; {(totalPrice * 0.15).toFixed(2)}</p>
+                                <p>&#8377; {0}</p>
                             </div>
                             <hr />
                             <div style={{ fontWeight: 'bold' }} className="cart-amount">
                                 <p>Total Amount</p>
-                                <p>&#8377; {(totalPrice * 0.15 + totalPrice).toFixed(2)}</p>
+                                <p>&#8377; {(totalPrice).toFixed(2)}</p>
                             </div>
                         </div>
                         <div className="total-payment">

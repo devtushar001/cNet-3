@@ -136,7 +136,6 @@ const getCart = async (req, res) => {
             });
         }
 
-        // Find the user
         const userData = await userModel.findById(userId);
         if (!userData) {
             return res.status(404).json({
@@ -145,7 +144,6 @@ const getCart = async (req, res) => {
             });
         }
 
-        // Ensure cartData is always an array
         const cartData = userData.cartData || [];
 
         return res.status(200).json({
