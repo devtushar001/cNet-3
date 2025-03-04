@@ -38,7 +38,7 @@ const ShowShop = () => {
             const foundProduct = cartData?.find(item => item.productId === singleProduct._id);
             setCartQuantity(foundProduct ? foundProduct.quantity : 0);
         }
-    }, [cartData, singleProduct]);
+    }, [cartData, singleProduct, backend_url]);
 
     if (!singleProduct) return <h2 className="error-message">Product not found!</h2>;
 
