@@ -149,6 +149,7 @@ const EscomContextProvider = ({ children }) => {
     addToCart,
     removeFromCart,
     cartData,
+    setCartData,
     user,
     token,
     productData,

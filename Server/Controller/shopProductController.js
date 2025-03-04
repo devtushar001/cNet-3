@@ -1,4 +1,5 @@
 import shopProductModel from "../Models/shopProductModel.js";
+import userModel from "../Models/userModel.js";
 
 export const addShopProductController = async (req, res) => {
     try {
@@ -63,3 +64,21 @@ export const getShopProductController = async (req, res) => {
     }
 };
 
+export const getSingleShopProductController = async (req, res) => {
+    try {
+        const { shopId } = req.query;
+        console.log(shopId)
+        if (!shopId) {
+            return res.status(400).json({ error: "shopId is required" });
+        }
+
+        const product = await shopProductModel.findOne({ _id: shopId });
+
+        if (!product) {
+            return res.status(404).json({ error: "Product not found" });
+        }
+        res.status(200).json(product);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+};

@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 // import { productData } from "../../assets/escomData";
 import "./ShowShop.css";
@@ -7,7 +7,8 @@ import { toast } from "react-toastify";
 
 const ShowShop = () => {
     const { shopId } = useParams();
-    const { addToCart, removeFromCart, cartData, token, productData } = useContext(EscomContext);
+    const { addToCart, removeFromCart, cartData, token, productData, backend_url } = useContext(EscomContext);
+    const [singleProduct, setSingleProduct] = useState([]);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -15,7 +16,7 @@ const ShowShop = () => {
         console.log(productData)
     }, []);
 
-    const singleProduct = productData.find((data) => data._id === shopId);
+    // const singleProduct = productData.find((data) => data._id === shopId);
 
     useEffect(() => {
         window.scrollTo(0, 0);
@@ -50,6 +51,32 @@ const ShowShop = () => {
         navigate("/place-order");
     };
 
+    const fetchSingleShopProduct = async () => {
+        try {
+            const response = await fetch(`${backend_url}/api/shop-products/get-single?shopId=${shopId}`, {
+                method: 'GET',
+                headers: {
+                    "Content-Type": "application/json"
+                }
+            });
+            console.log(response)
+            if (!response.ok) {
+                throw new Error(`Error: ${response.status} - ${response.statusText}`);
+            }
+
+            const data = await response.json();
+            console.log(data);
+            setSingleProduct(data);
+        } catch (error) {
+            toast.error(error.message);
+            throw new Error(error.message);
+        }
+    };
+
+    useEffect(() => {
+        fetchSingleShopProduct();
+    }, []);
+
     const updateCartOnAdd = async (productId) => {
         try {
             const response = await fetch("http://localhost:10017/api/user-cart/add", {
@@ -62,6 +89,7 @@ const ShowShop = () => {
             });
 
             const data = await response.json();
+            console.log(data)
             if (!data.success) {
                 toast.error("Cart data not found.");
             } else {
@@ -114,7 +142,7 @@ const ShowShop = () => {
                     </div>
                 </div>
                 <div className="right-cont">
-                    <h1 style={{fontSize: "39px", fontWeight: "bold", fontFamily: "Arial"}}>{singleProduct?.title}</h1>
+                    <h1 style={{ fontSize: "39px", fontWeight: "bold", fontFamily: "Arial" }}>{singleProduct?.title}</h1>
                     <span>{readableDate}</span>
                     <p>{singleProduct?.description}</p>
                     <p>Category: {singleProduct?.shopCategory}</p>
@@ -160,11 +188,11 @@ const ShowShop = () => {
                         </button>
                     </div>
                 </div>
-                 <div className="dengerous-html">
-                <div dangerouslySetInnerHTML={{ __html: singleProduct.content }} />
+                <div className="dengerous-html">
+                    <div dangerouslySetInnerHTML={{ __html: singleProduct.content }} />
+                </div>
             </div>
-            </div>
-           
+
         </>
     );
 };

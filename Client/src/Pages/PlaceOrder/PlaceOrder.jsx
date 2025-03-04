@@ -6,8 +6,7 @@ import "./PlaceOrder.css";
 import { Link } from "react-router-dom";
 
 const PlaceOrder = () => {
-    const { productData, backend_url, token } = useContext(EscomContext);
-    const [cartData, setCartData] = useState([]);
+    const { productData, backend_url, token,cartData, setCartData } = useContext(EscomContext);
 
     const navigate = useNavigate();
     const [scriptLoaded, setScriptLoaded] = useState(false);
@@ -22,20 +21,6 @@ const PlaceOrder = () => {
         zipcode: "",
         phone: "+91-8795874537"
     })
-
-
-    // const getCartItems = () => {
-    //     return cartData.map(cartItem => {
-    //         const product = productData.find(product => product._id === cartItem.productId);
-    //         return product ? { ...product, quantity: cartItem.quantity } : null;
-    //     }).filter(item => item !== null);
-    // };
-
-    // const cartItems = getCartItems();
-
-    // useEffect(() => {
-    //     console.log(cartItems);
-    // }, [])
 
     const totalPrice = 320;
 
