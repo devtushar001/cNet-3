@@ -9,6 +9,7 @@ const ShowShop = () => {
     const { shopId } = useParams();
     const { addToCart, removeFromCart, cartData, token, productData, backend_url } = useContext(EscomContext);
     const [singleProduct, setSingleProduct] = useState([]);
+    const [productQuantity, setProductQuantity] = useState(0);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -16,7 +17,6 @@ const ShowShop = () => {
         console.log(productData)
     }, []);
 
-    // const singleProduct = productData.find((data) => data._id === shopId);
 
     useEffect(() => {
         window.scrollTo(0, 0);
@@ -37,10 +37,12 @@ const ShowShop = () => {
         hour12: true,
     });
 
-    const cartItem = cartData.find((item) => item.productId === singleProduct._id);
-    const cartQuantity = cartItem?.quantity || 0;
+    const cartQuantity = singleProduct?.quantity || 0;
     const isOutOfStock = cartQuantity >= singleProduct.stock;
-
+    useEffect(() => {
+        console.log(cartQuantity)
+        console.log(cartData)
+    }, [])
     const handlePurchase = (productId) => {
         const findProduct = cartData.find((data) => data.productId === productId);
 
@@ -59,13 +61,11 @@ const ShowShop = () => {
                     "Content-Type": "application/json"
                 }
             });
-            console.log(response)
             if (!response.ok) {
                 throw new Error(`Error: ${response.status} - ${response.statusText}`);
             }
 
             const data = await response.json();
-            console.log(data);
             setSingleProduct(data);
         } catch (error) {
             toast.error(error.message);
@@ -89,12 +89,12 @@ const ShowShop = () => {
             });
 
             const data = await response.json();
-            console.log(data)
             if (!data.success) {
                 toast.error("Cart data not found.");
             } else {
                 toast.success("Product added to cart!");
             }
+           
         } catch (error) {
             console.log(error);
             toast.error("Failed to update cart. Please try again.");
@@ -117,7 +117,6 @@ const ShowShop = () => {
             }
 
             const data = await response.json();
-
             if (!data.success) {
                 toast.error("Cart data not found.");
             } else {

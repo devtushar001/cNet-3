@@ -6,7 +6,7 @@ import "./PlaceOrder.css";
 import { Link } from "react-router-dom";
 
 const PlaceOrder = () => {
-    const { productData, backend_url, token,cartData, setCartData } = useContext(EscomContext);
+    const { productData, backend_url, token, cartData, setCartData } = useContext(EscomContext);
 
     const navigate = useNavigate();
     const [scriptLoaded, setScriptLoaded] = useState(false);
@@ -44,7 +44,6 @@ const PlaceOrder = () => {
                 },
                 body: JSON.stringify(data),
             });
-            console.log(response);
             if (!response.ok) {
                 throw new Error("Failed to create Razorpay order");
             }
@@ -57,8 +56,6 @@ const PlaceOrder = () => {
                 currency: "INR",
                 order_id: result.razorpayOrder.id,
                 handler: async function (response) {
-                    console.log("Payment successful", response);
-
                     const paymentDetails = {
                         order_id: response.razorpay_order_id,
                         payment_id: response.razorpay_payment_id,
@@ -114,8 +111,6 @@ const PlaceOrder = () => {
             .catch((error) => alert(error.message));
     }, [data]);
 
-
-
     const getCart = async () => {
         try {
             const response = await fetch(`${backend_url}/api/user-cart/get`, {
@@ -131,7 +126,6 @@ const PlaceOrder = () => {
             }
 
             const data = await response.json();
-            console.log(data)
             setCartData(data.cart);
         } catch (error) {
             console.error("Failed to fetch cart data:", error.message);
@@ -141,7 +135,7 @@ const PlaceOrder = () => {
     useEffect(() => {
         getCart();
         console.log(cartData);
-    }, []);
+    }, [backend_url]);
 
     return (
         <>

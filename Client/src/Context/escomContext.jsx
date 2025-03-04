@@ -2,15 +2,13 @@ import React, { createContext, useState, useEffect } from "react";
 import { escomData } from '../assets/escomData';
 import { toast } from "react-toastify";
 
-// Create the context
 export const EscomContext = createContext(null);
 
-// Context Provider component
 const EscomContextProvider = ({ children }) => {
   const [navbar, setNavbar] = useState(false);
   const [data, setData] = useState("");
   const [toolsComponents, setToolsComponents] = useState({});
-  const [sideBar, setSideBar] = useState(false); // To show all tools in the sidebar
+  const [sideBar, setSideBar] = useState(false); 
   const [searchPage, setSearchPage] = useState(false);
   const [getValue, setGetValue] = useState([]);
   const [cartData, setCartData] = useState([]);
