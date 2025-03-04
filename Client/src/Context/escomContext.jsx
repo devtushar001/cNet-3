@@ -8,7 +8,7 @@ const EscomContextProvider = ({ children }) => {
   const [navbar, setNavbar] = useState(false);
   const [data, setData] = useState("");
   const [toolsComponents, setToolsComponents] = useState({});
-  const [sideBar, setSideBar] = useState(false); 
+  const [sideBar, setSideBar] = useState(false);
   const [searchPage, setSearchPage] = useState(false);
   const [getValue, setGetValue] = useState([]);
   const [cartData, setCartData] = useState([]);
@@ -17,26 +17,31 @@ const EscomContextProvider = ({ children }) => {
   const [blogCat, setBlogCat] = useState('All');
   const [shopCat, setShopCat] = useState('All');
 
+  const backend_url = "http://localhost:10017";
+
+  // Get user & token from localStorage
   const getUser = localStorage.getItem('user');
   const token = JSON.parse(localStorage.getItem('token'));
-
   const user = JSON.parse(getUser);
 
+  // Load cartData from localStorage when component mounts
   useEffect(() => {
-    console.log(courseCat);
-    console.log(blogCat);
-    console.log(shopCat);
+    const storedCart = localStorage.getItem("cartData");
+    if (storedCart) {
+      setCartData(JSON.parse(storedCart));
+    }
   }, []);
 
-  const backend_url = "http://localhost:10017";
+  // Save cartData to localStorage whenever it updates
+  useEffect(() => {
+    localStorage.setItem("cartData", JSON.stringify(cartData));
+  }, [cartData]);
 
   const getFetchData = async () => {
     try {
       const response = await fetch(`${backend_url}/api/text-edit/get`, {
         method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
       });
 
       const data = await response.json();
@@ -50,18 +55,14 @@ const EscomContextProvider = ({ children }) => {
     try {
       const response = await fetch(`${backend_url}/api/text-edit/delete`, {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ id })
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id }),
       });
 
       const data = await response.json();
-      getFetchData();
       if (data.success) {
         toast.success(data.message);
-        setGetValue(getValue.filter(content => content._id !== id));
-        getFetchData();
+        setGetValue((prev) => prev.filter(content => content._id !== id));
       } else {
         toast.error("Failed to delete content");
       }
@@ -70,44 +71,36 @@ const EscomContextProvider = ({ children }) => {
     }
   };
 
-
+  // Add product to cart
   const addToCart = (productId) => {
     if (!user) {
       toast.error("Login First");
       return;
     }
     setCartData((prevCart) => {
-
       const existingItem = prevCart.find((item) => item.productId === productId);
-
-      if (existingItem) {
-        return prevCart.map((item) =>
-          item.productId === productId ? { ...item, quantity: item.quantity + 1 } : item
-        );
-      } else {
-        return [...prevCart, { productId, quantity: 1 }];
-      }
+      return existingItem
+        ? prevCart.map((item) =>
+            item.productId === productId ? { ...item, quantity: item.quantity + 1 } : item
+          )
+        : [...prevCart, { productId, quantity: 1 }];
     });
   };
 
+  // Remove product from cart
   const removeFromCart = (productId) => {
     if (!user) {
       toast.error("Login First");
       return;
     }
     setCartData((prevCart) => {
-      const existingItem = prevCart.find((item) => item.productId === productId);
-
-      if (existingItem && existingItem.quantity > 1) {
-        return prevCart.map((item) =>
+      return prevCart
+        .map((item) =>
           item.productId === productId ? { ...item, quantity: item.quantity - 1 } : item
-        );
-      } else {
-        return prevCart.filter((item) => item.productId !== productId);
-      }
+        )
+        .filter((item) => item.quantity > 0);
     });
   };
-
 
   useEffect(() => {
     const toolComponents = escomData.reduce((acc, item) => {
@@ -117,11 +110,6 @@ const EscomContextProvider = ({ children }) => {
     setToolsComponents(toolComponents);
     getFetchData();
   }, []);
-
-  useEffect(() => {
-    console.log(cartData);
-  }, [])
-
 
   const contextValue = {
     data,
