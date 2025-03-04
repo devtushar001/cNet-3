@@ -6,9 +6,10 @@ import "./PlaceOrder.css";
 import { Link } from "react-router-dom";
 
 const PlaceOrder = () => {
-    const { cartData, productData } = useContext(EscomContext);
+    const { productData, backend_url, token } = useContext(EscomContext);
+    const [cartData, setCartData] = useState([]);
+
     const navigate = useNavigate();
-    const { backend_url, token } = useContext(EscomContext);
     const [scriptLoaded, setScriptLoaded] = useState(false);
     const [data, setData] = useState({
         firstName: "",
@@ -23,20 +24,20 @@ const PlaceOrder = () => {
     })
 
 
-    const getCartItems = () => {
-        return cartData.map(cartItem => {
-            const product = productData.find(product => product._id === cartItem.productId);
-            return product ? { ...product, quantity: cartItem.quantity } : null;
-        }).filter(item => item !== null);
-    };
+    // const getCartItems = () => {
+    //     return cartData.map(cartItem => {
+    //         const product = productData.find(product => product._id === cartItem.productId);
+    //         return product ? { ...product, quantity: cartItem.quantity } : null;
+    //     }).filter(item => item !== null);
+    // };
 
-    const cartItems = getCartItems();
+    // const cartItems = getCartItems();
 
-    useEffect(() => {
-        console.log(cartItems);
-    }, [])
+    // useEffect(() => {
+    //     console.log(cartItems);
+    // }, [])
 
-    const totalPrice = cartItems.reduce((total, item) => total + (item.price * item.quantity), 0);
+    const totalPrice = 320;
 
     const razorPayScript = (src) => {
         return new Promise((resolve, reject) => {
@@ -129,6 +130,34 @@ const PlaceOrder = () => {
     }, [data]);
 
 
+
+    const getCart = async () => {
+        try {
+            const response = await fetch(`${backend_url}/api/user-cart/get`, {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${token}`
+                },
+            });
+            console.log(response)
+            if (!response.ok) {
+                throw new Error(`Error: ${response.status} - ${response.statusText}`);
+            }
+
+            const data = await response.json();
+            console.log(data)
+            setCartData(data.cart);
+        } catch (error) {
+            console.error("Failed to fetch cart data:", error.message);
+        }
+    };
+
+    useEffect(() => {
+        getCart();
+        console.log(cartData);
+    }, []);
+
     return (
         <>
             <div className="place-order">
@@ -171,8 +200,8 @@ const PlaceOrder = () => {
                     <h2>Order Summary</h2>
                     <hr />
                     <div className="cart-items">
-                        {cartItems.length > 0 ? (
-                            cartItems.map((item) => (
+                        {cartData.length > 0 ? (
+                            cartData.map((item) => (
                                 <div key={item._id} className="cart-item">
                                     <Link to={`/shops/${item._id}`}><img src={item.featuredImg} alt={item.title} className="cart-item-image" /></Link>
                                     <div className="cart-item-details">

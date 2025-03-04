@@ -1,3 +1,4 @@
+import shopProductModel from "../Models/shopProductModel.js";
 import userModel from "../Models/userModel.js";
 import mongoose from "mongoose";
 
@@ -12,7 +13,6 @@ const addToCart = async (req, res) => {
                 message: "Product ID is required",
             });
         }
-
 
         const userData = await userModel.findById(userId);
         if (!userData) {
@@ -127,7 +127,8 @@ const removeFromCart = async (req, res) => {
 
 const getCart = async (req, res) => {
     try {
-        const userId = req.user._id;
+        const userId = req.user?.id || req.user;
+        console.log("User ID:", userId);
 
         if (!userId) {
             return res.status(400).json({
@@ -144,13 +145,14 @@ const getCart = async (req, res) => {
             });
         }
 
-        const cartData = userData.cartData || [];
+        const cartData = await getCartDetails(userData);
 
         return res.status(200).json({
             success: true,
             message: "Cart data fetched successfully",
             cart: cartData,
         });
+
     } catch (error) {
         console.error("Error in getCart:", error);
         return res.status(500).json({
@@ -160,6 +162,27 @@ const getCart = async (req, res) => {
         });
     }
 };
+
+const getCartDetails = async (userData) => {
+    try {
+        const carts = userData.cartData || [];
+
+        const productPromises = carts.map(cart => shopProductModel.findById(cart.productId));
+        const products = await Promise.all(productPromises);
+
+        return products
+            .map((product, index) => product ? ({
+                ...product.toObject(),
+                quantity: carts[index].quantity,
+            }) : null)
+            .filter(product => product !== null);
+
+    } catch (error) {
+        console.error("Error fetching cart details:", error.message);
+        return [];
+    }
+};
+
 
 
 
