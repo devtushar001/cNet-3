@@ -38,7 +38,6 @@ console.log(req.body)
 }
 
 export const getShopCategoryController = async (req, res) => {
-    console.log("hello");
     try {
         const shopCategories = await shopCategoryModel.find();
 

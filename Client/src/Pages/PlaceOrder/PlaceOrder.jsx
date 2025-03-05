@@ -7,7 +7,6 @@ import { Link } from "react-router-dom";
 
 const PlaceOrder = () => {
     const { productData, backend_url, token, cartData, setCartData } = useContext(EscomContext);
-
     const navigate = useNavigate();
     const [scriptLoaded, setScriptLoaded] = useState(false);
     const [data, setData] = useState({
@@ -120,12 +119,13 @@ const PlaceOrder = () => {
                     Authorization: `Bearer ${token}`
                 },
             });
-            console.log(response)
+
             if (!response.ok) {
                 throw new Error(`Error: ${response.status} - ${response.statusText}`);
             }
 
             const data = await response.json();
+            console.log(data.cart)
             setCartData(data.cart);
         } catch (error) {
             console.error("Failed to fetch cart data:", error.message);

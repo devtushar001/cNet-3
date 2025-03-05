@@ -183,7 +183,28 @@ const getCartDetails = async (userData) => {
     }
 };
 
+export const cartItem = async (req, res) => {
+    try {
+        if (!req.user || !req.user.cartData) {
+            return res.status(400).json({
+                success: false,
+                message: "User or cart data not found",
+            });
+        }
 
-
+        return res.status(200).json({
+            cart: req.user.cartData,
+            success: true,
+            message: "Cart data retrieved successfully",
+        });
+    } catch (error) {
+        console.error("Error fetching cart:", error);
+        return res.status(500).json({
+            success: false,
+            message: "Internal Server Error",
+            error: error.message
+        });
+    }
+};
 
 export { addToCart, removeFromCart, getCart }

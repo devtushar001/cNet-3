@@ -12,30 +12,54 @@ const razorPayKeySecret = process.env.RAZORPAY_KEY_SECRET;
 export const createRazorPayOrderController = async (req, res) => {
   try {
     if (!razorPayKeyId || !razorPayKeySecret) {
-      return res.status(404).json({
+      return res.status(500).json({
         success: false,
         message: "Razorpay credentials not found",
       });
     }
 
     const user = req.user;
-    const { firstName,
-      lastName,
-      email,
-      street,
-      city,
-      state,
-      fulladdress,
-      zipcode,
-      phone } = req.body;
-
     if (!user) {
-      return res.status(400).json({
+      return res.status(401).json({
         success: false,
         message: "User not found",
       });
     }
 
+    const { firstName, lastName, email, street, city, state, fulladdress, zipcode, phone } = req.body;
+
+    if (!firstName || !lastName || !email || !street || !city || !state || !fulladdress || !zipcode || !phone) {
+      return res.status(400).json({
+        success: false,
+        message: "All fields are required",
+      });
+    }
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid email format",
+      });
+    }
+
+    const zipRegex = /^\d{6}$/;
+    if (!zipRegex.test(zipcode)) {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid ZIP code. Must be a 6-digit number",
+      });
+    }
+
+    // Phone number validation (assuming 10-digit Indian numbers)
+    // const phoneRegex = /^\d{10}$/;
+    // if (!phoneRegex.test(phone)) {
+    //   return res.status(400).json({
+    //     success: false,
+    //     message: "Invalid phone number. Must be a 10-digit number",
+    //   });
+    // }
+
+    // Validate cart data
     const userCartData = user.cartData;
     if (!userCartData || userCartData.length === 0) {
       return res.status(400).json({
@@ -47,33 +71,33 @@ export const createRazorPayOrderController = async (req, res) => {
     let totalAmount = 0;
     const productDetails = [];
 
+    // Fetch product details and calculate total amount
     for (const item of userCartData) {
       const product = await shopProductModel.findById(item.productId);
-      if (product) {
-        totalAmount += Number(product.price) * Number(item.quantity);
-        productDetails.push({
-          productId: item.productId,
-          quantity: item.quantity,
-          price: product.price,
-        });
-      } else {
+      if (!product) {
         return res.status(400).json({
           success: false,
           message: `Product not found: ${item.productId}`,
         });
       }
+      totalAmount += Number(product.price) * Number(item.quantity);
+      productDetails.push({
+        productId: item.productId,
+        quantity: item.quantity,
+        price: product.price,
+      });
     }
 
+    // Create a Razorpay instance and order
     const rPI = razorPayInstance(razorPayKeyId, razorPayKeySecret);
-
     const options = {
-      amount: Number(totalAmount * 100),
+      amount: Number(totalAmount * 100), // Convert to paise
       currency: "INR",
       receipt: `receipt_order_${user._id}`,
     };
-
     const razorpayOrder = await rPI.orders.create(options);
 
+    // Save order in database
     const newOrder = new orderModel({
       userId: user._id,
       cartData: productDetails,
@@ -101,7 +125,7 @@ export const createRazorPayOrderController = async (req, res) => {
     await newOrder.save();
     console.log(newOrder);
 
-    return res.status(200).json({
+    return res.status(201).json({
       success: true,
       message: "Order created successfully",
       order: newOrder,
@@ -116,6 +140,7 @@ export const createRazorPayOrderController = async (req, res) => {
     });
   }
 };
+
 
 
 export const verifyRazorPayOrderController = async (req, res) => {

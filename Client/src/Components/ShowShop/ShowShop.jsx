@@ -6,39 +6,67 @@ import { toast } from "react-toastify";
 
 const ShowShop = () => {
     const { shopId } = useParams();
-    const { addToCart, setCartData, removeFromCart, cartData, token, backend_url } = useContext(EscomContext);
+    const { addToCart, setCartItem, cartItem, token, backend_url } = useContext(EscomContext);
     const [singleProduct, setSingleProduct] = useState(null);
-    const [cartQuantity, setCartQuantity] = useState(0);
+    const [cartQuantity, setCartQuantity] = useState(null);
     const navigate = useNavigate();
 
     useEffect(() => {
         window.scrollTo(0, 0);
     }, []);
 
-    const fetchSingleShopProduct = async () => {
+    const getCartData = async () => {
         try {
-            const response = await fetch(`${backend_url}/api/shop-products/get-single?shopId=${shopId}`, {
+            const response = await fetch(`${backend_url}/api/user-cart/get-cart`, {
                 method: "GET",
-                headers: { "Content-Type": "application/json" }
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${token}`
+                },
             });
-            if (!response.ok) throw new Error(`Error: ${response.status} - ${response.statusText}`);
+
+            if (!response.ok) {
+                throw new Error(`Error ${response.status}: ${response.statusText}`);
+            }
+
             const data = await response.json();
-            setSingleProduct(data);
+            if (data.success && data.cart) {
+                setCartItem(data.cart);
+            } else {
+                toast.error(data.message || "Failed to fetch cart data.");
+            }
         } catch (error) {
-            toast.error(error.message);
+            toast.error(error.message || "Something went wrong while fetching cart data.");
         }
     };
 
     useEffect(() => {
+        if (!shopId) return;
+
+        const fetchSingleShopProduct = async () => {
+            try {
+                const response = await fetch(`${backend_url}/api/shop-products/get-single?shopId=${shopId}`, {
+                    method: "GET",
+                    headers: { "Content-Type": "application/json" }
+                });
+                if (!response.ok) throw new Error(`Error: ${response.status} - ${response.statusText}`);
+                const data = await response.json();
+                setSingleProduct(data);
+            } catch (error) {
+                toast.error(error.message);
+            }
+        };
+
         fetchSingleShopProduct();
-    }, [shopId]);
+        getCartData();
+    }, [shopId, backend_url]);
 
     useEffect(() => {
         if (singleProduct) {
-            const foundProduct = cartData?.find(item => item.productId === singleProduct._id);
+            const foundProduct = cartItem?.find(item => item.productId === singleProduct._id);
             setCartQuantity(foundProduct ? foundProduct.quantity : 0);
         }
-    }, [cartData, singleProduct, backend_url]);
+    }, [cartItem, singleProduct]);
 
     if (!singleProduct) return <h2 className="error-message">Product not found!</h2>;
 
@@ -62,9 +90,10 @@ const ShowShop = () => {
                 },
                 body: JSON.stringify({ productId })
             });
+
             const data = await response.json();
             if (data.success) {
-                setCartData(data.cart);
+                setCartItem(data.cart);
                 toast.success(`Product ${action === "add" ? "added to" : "removed from"} cart!`);
             } else {
                 toast.error("Cart update failed.");
@@ -73,6 +102,11 @@ const ShowShop = () => {
             toast.error("Failed to update cart. Please try again.");
         }
     };
+
+
+
+
+
 
     return (
         <div className="show-shop-product">
@@ -91,32 +125,28 @@ const ShowShop = () => {
                 <h2>&#8377; {singleProduct?.price}</h2>
 
                 <div className="quantity">
-                    {cartQuantity > 0 && (
-                        <div onClick={() => { removeFromCart(singleProduct._id); updateCart(singleProduct._id, "remove"); }}>
-                            -
-                        </div>
-                    )}
-                    <div>{cartQuantity}</div>
                     <div
-                        onClick={() => { addToCart(singleProduct._id); updateCart(singleProduct._id, "add"); }}
-                        style={{ pointerEvents: isOutOfStock ? "none" : "auto", opacity: isOutOfStock ? 0.2 : 1 }}
-                    >
+                        onClick={() => updateCart(singleProduct._id, "remove")}
+                        style={{ pointerEvents: cartQuantity === 0 ? "none" : "auto", opacity: cartQuantity === 0 ? 0.2 : 1 }}>
+                        -
+                    </div>
+                    <div>{cartQuantity ?? "Loading..."}</div>
+                    <div
+                        onClick={() => updateCart(singleProduct._id, "add")}
+                        style={{ pointerEvents: isOutOfStock ? "none" : "auto", opacity: isOutOfStock ? 0.2 : 1 }}>
                         +
                     </div>
                 </div>
 
                 <div className="buttons">
                     <button
-                        onClick={() => { addToCart(singleProduct._id); updateCart(singleProduct._id, "add"); }}
-                        style={{ pointerEvents: isOutOfStock ? "none" : "auto", opacity: isOutOfStock ? 0.2 : 1 }}
-                    >
+                        onClick={() => updateCart(singleProduct._id, "add")}
+                        disabled={isOutOfStock}>
                         Add to cart
                     </button>
                     <button
                         onClick={handlePurchase}
-                        style={{ opacity: cartQuantity === 0 ? 0.2 : 1 }}
-                        disabled={cartQuantity === 0}
-                    >
+                        disabled={cartQuantity === 0}>
                         Purchase
                     </button>
                 </div>

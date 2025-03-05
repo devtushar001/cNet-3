@@ -16,6 +16,7 @@ const EscomContextProvider = ({ children }) => {
   const [courseCat, setCourseCat] = useState('All');
   const [blogCat, setBlogCat] = useState('All');
   const [shopCat, setShopCat] = useState('All');
+  const [cartItem, setCartItem] = useState([]);
 
   const backend_url = "http://localhost:10017";
 
@@ -81,8 +82,8 @@ const EscomContextProvider = ({ children }) => {
       const existingItem = prevCart.find((item) => item.productId === productId);
       return existingItem
         ? prevCart.map((item) =>
-            item.productId === productId ? { ...item, quantity: item.quantity + 1 } : item
-          )
+          item.productId === productId ? { ...item, quantity: item.quantity + 1 } : item
+        )
         : [...prevCart, { productId, quantity: 1 }];
     });
   };
@@ -139,7 +140,9 @@ const EscomContextProvider = ({ children }) => {
     user,
     token,
     productData,
-    setProductData
+    setProductData,
+    cartItem,
+    setCartItem,
   };
 
   return (
