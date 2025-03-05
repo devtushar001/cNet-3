@@ -43,18 +43,30 @@ export const addShopProductController = async (req, res) => {
 
 export const getShopProductController = async (req, res) => {
     try {
-        const data = await shopProductModel.find();
-        if (!data) {
-            return res.status(400).json({
+        let page = parseInt(req.query.page) || 1;
+        let limit = 9;
+        let skip = (page - 1) * limit;
+
+        const data = await shopProductModel.find().skip(skip).limit(limit);
+
+        const totalProducts = await shopProductModel.countDocuments();
+
+        if (!data || data.length === 0) {
+            return res.status(404).json({
                 success: false,
-                message: `Products not found`
-            })
+                message: "No products found for this page",
+            });
         }
-        res.status(200).json({
+
+        return res.status(200).json({
             success: true,
             count: data.length,
+            currentPage: page,
+            totalPages: Math.ceil(totalProducts / limit),
+            totalProducts,
             data,
         });
+
     } catch (error) {
         res.status(500).json({
             success: false,
@@ -63,6 +75,7 @@ export const getShopProductController = async (req, res) => {
         });
     }
 };
+
 
 export const getSingleShopProductController = async (req, res) => {
     try {

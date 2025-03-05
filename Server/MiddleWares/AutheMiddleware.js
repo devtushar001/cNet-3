@@ -17,12 +17,18 @@ export const isAuth = async (req, res, next) => {
 
     const decodedData = JWT.verify(token, process.env.JWT_SECRET);
     req.user = await userModel.findById(decodedData._id);
+
+    if (!req.user) return res.status(400).json({
+      success: false,
+      message: `User not found`
+    })
+
     next();
   } catch (error) {
-    console.error("Authentication error:", error);
+    console.error("Authentication error:", error.message);
     return res.status(401).json({
       success: false,
-      message: "Invalid or expired token.",
+      message: "Login first, add to cart",
     });
   }
 };

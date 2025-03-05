@@ -17,7 +17,7 @@ const UserProfile = () => {
   const logOut = () => {
     localStorage.removeItem("user");
     localStorage.removeItem("token");
-    window.location.href = "/login";
+    navigate('/');
   };
 
 

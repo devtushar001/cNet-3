@@ -5,7 +5,10 @@ import "./Shops.css";
 
 const Shops = () => {
   const { shopCat, backend_url, productData, setProductData } = useContext(EscomContext);
-  const [page, setPage] = useState(1);
+  
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const [totalProducts, setTotalProducts] = useState(0);
 
   // Function to fetch shop products
   const fetchShopProduct = async (page = 1) => {
@@ -13,6 +16,10 @@ const Shops = () => {
       const response = await fetch(`${backend_url}/api/shop-products/get-all?page=${page}`);
       if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
       const result = await response.json();
+
+      setCurrentPage(result.currentPage);
+      setTotalPages(result.totalPages);
+      setTotalProducts(result.totalProducts);
       setProductData(result.data);
     } catch (error) {
       console.error("Error fetching data:", error);
@@ -20,8 +27,8 @@ const Shops = () => {
   };
 
   useEffect(() => {
-    fetchShopProduct(page);
-  }, [backend_url, page]); // Added `page` to dependency array to fetch data on page change
+    fetchShopProduct(currentPage);
+  }, [backend_url, currentPage]); // Removed `page` and using `currentPage` instead
 
   const relatedProducts = shopCat === "All"
     ? productData
@@ -62,17 +69,23 @@ const Shops = () => {
         ))}
       </div>
 
-      {/* Pagination Buttons */}
+      {/* Pagination Controls */}
       <div className="page-navigation-btn">
         <button
           className="previous"
-          onClick={() => setPage((prev) => Math.max(prev - 1, 1))}
-          disabled={page === 1}
+          onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+          disabled={currentPage === 1}
         >
           Previous
         </button>
-        <span className="page-no">{page}</span>
-        <button className="next" onClick={() => setPage((prev) => prev + 1)}>Next</button>
+        <span className="page-no">{currentPage} / {totalPages}</span>
+        <button
+          className="next"
+          onClick={() => setCurrentPage((prev) => prev + 1)}
+          disabled={currentPage >= totalPages} // Disable on last page
+        >
+          Next
+        </button>
       </div>
     </>
   );

@@ -20,12 +20,10 @@ const PlaceOrder = () => {
         phone: "+91-8795874537"
     });
 
-    // Memoized total price to avoid recalculating on every render
     const totalPrice = useMemo(() => {
         return cartData.reduce((acc, item) => acc + Number(item.price) * Number(item.quantity), 0);
     }, [cartData]);
 
-    // Load Razorpay script only once
     useEffect(() => {
         const script = document.createElement("script");
         script.src = "https://checkout.razorpay.com/v1/checkout.js";
@@ -33,7 +31,6 @@ const PlaceOrder = () => {
         document.body.appendChild(script);
     }, []);
 
-    // Fetch cart data only when the backend_url or token changes
     const getCart = useCallback(async () => {
         try {
             const response = await fetch(`${backend_url}/api/user-cart/get`, {
@@ -57,7 +54,6 @@ const PlaceOrder = () => {
         getCart();
     }, [getCart]);
 
-    // Razorpay Order Function
     const razorPayPlaceOrder = useCallback(async () => {
         try {
             const response = await fetch(`${backend_url}/api/razorpay/create-order`, {

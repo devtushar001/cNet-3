@@ -96,7 +96,8 @@ const ShowShop = () => {
                 setCartItem(data.cart);
                 toast.success(`Product ${action === "add" ? "added to" : "removed from"} cart!`);
             } else {
-                toast.error("Cart update failed.");
+                toast.error(data.message);
+                navigate('/login-signup');
             }
         } catch (error) {
             toast.error("Failed to update cart. Please try again.");

@@ -59,7 +59,7 @@ const LoginSignup = () => {
       localStorage.setItem("token", JSON.stringify(jsonResponse.token));
       localStorage.setItem("user", JSON.stringify(jsonResponse.user));
 
-      window.location.reload("/user-profile");
+      navigate("/shops");
     } catch (error) {
       console.error("Error:", error);
       alert("Something went wrong. Please try again later.");
