@@ -112,3 +112,26 @@
     background: #ffb300;
     color: #001e57;
 }
+
+.page-navigation-btn {
+    width: 100%;
+    display: flex;
+    justify-content: space-evenly;
+    margin-bottom: 40px;
+}
+
+.page-navigation-btn button {
+    padding: 7px 20px;
+    cursor: pointer;
+}
+
+.page-navigation-btn .page-no {
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: none;
+    border: 1px solid gray;
+}
