@@ -46,7 +46,7 @@ const Home = () => {
             </div>
             <div className="box">
               <img src={assets.react_icon} alt="" />
-              <div className="explore">IOT Softwares</div>
+              <div className="explore">IOT Websites</div>
             </div>
             <div className="box">
               <img src={assets.node_icon} alt="" />
