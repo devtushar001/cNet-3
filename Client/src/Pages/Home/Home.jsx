@@ -46,7 +46,7 @@ const Home = () => {
             </div>
             <div className="box">
               <img src={assets.react_icon} alt="" />
-              <div className="explore">IOT Websites</div>
+              <div className="explore">IOT Web Apps</div>
             </div>
             <div className="box">
               <img src={assets.node_icon} alt="" />
@@ -66,7 +66,6 @@ const Home = () => {
                 <br /><br />
                 <Link to="/hire-me"><button>View more.</button>
                 </Link>
-                
               </div>
             </div>
           </div>

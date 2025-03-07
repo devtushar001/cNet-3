@@ -53,7 +53,6 @@ app.use('/api/user-cart', cartRouter);
 app.use('/api/shop-category', shopCategoryRouter);
 app.use('/api/shop-products', shopProductRouter);
 app.use('/api/contact-me', hireMeRouter)
-
 app.get('/', (req, res) => {
   res.status(200).json({
     success: true,

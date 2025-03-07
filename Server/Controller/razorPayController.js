@@ -50,16 +50,6 @@ export const createRazorPayOrderController = async (req, res) => {
       });
     }
 
-    // Phone number validation (assuming 10-digit Indian numbers)
-    // const phoneRegex = /^\d{10}$/;
-    // if (!phoneRegex.test(phone)) {
-    //   return res.status(400).json({
-    //     success: false,
-    //     message: "Invalid phone number. Must be a 10-digit number",
-    //   });
-    // }
-
-    // Validate cart data
     const userCartData = user.cartData;
     if (!userCartData || userCartData.length === 0) {
       return res.status(400).json({
@@ -71,7 +61,6 @@ export const createRazorPayOrderController = async (req, res) => {
     let totalAmount = 0;
     const productDetails = [];
 
-    // Fetch product details and calculate total amount
     for (const item of userCartData) {
       const product = await shopProductModel.findById(item.productId);
       if (!product) {
@@ -88,16 +77,14 @@ export const createRazorPayOrderController = async (req, res) => {
       });
     }
 
-    // Create a Razorpay instance and order
     const rPI = razorPayInstance(razorPayKeyId, razorPayKeySecret);
     const options = {
-      amount: Number(totalAmount * 100), // Convert to paise
+      amount: Number(totalAmount * 100), 
       currency: "INR",
       receipt: `receipt_order_${user._id}`,
     };
     const razorpayOrder = await rPI.orders.create(options);
 
-    // Save order in database
     const newOrder = new orderModel({
       userId: user._id,
       cartData: productDetails,
@@ -123,7 +110,6 @@ export const createRazorPayOrderController = async (req, res) => {
     });
 
     await newOrder.save();
-    console.log(newOrder);
 
     return res.status(201).json({
       success: true,
@@ -133,7 +119,6 @@ export const createRazorPayOrderController = async (req, res) => {
     });
 
   } catch (err) {
-    console.error("Error creating Razorpay order:", err);
     return res.status(500).json({
       success: false,
       message: `Razorpay order creation failed: ${err.message}`,
@@ -141,11 +126,8 @@ export const createRazorPayOrderController = async (req, res) => {
   }
 };
 
-
-
 export const verifyRazorPayOrderController = async (req, res) => {
   try {
-    // const userId = req.user;
     const { order_id, payment_id, signature } = req.body;
 
     if (!order_id || !payment_id || !signature) {
@@ -179,7 +161,6 @@ export const verifyRazorPayOrderController = async (req, res) => {
     await order.save();
 
     const user = await userModel.findById(order.userId);
-    console.log(user)
     if (!user) {
       return res.status(404).json({
         success: false,
@@ -188,10 +169,6 @@ export const verifyRazorPayOrderController = async (req, res) => {
     }
 
     user.cartData = [];
-
-
-
-
     await user.save();
 
     return res.status(200).json({
@@ -200,7 +177,6 @@ export const verifyRazorPayOrderController = async (req, res) => {
     });
 
   } catch (error) {
-    console.error("Error verifying Razorpay order:", error);
     return res.status(500).json({
       success: false,
       message: `Payment verification failed: ${error.message}`
@@ -208,3 +184,22 @@ export const verifyRazorPayOrderController = async (req, res) => {
   }
 };
 
+export const getUserOrderController = async (req, res) => {
+    try {
+      const userId = req.user._id;
+      console.log(userId);
+
+      const orders = await orderModel.find({ userId: userId });
+      return res.status(200).json({
+        success: true,
+        message: `Got it`,
+        data: orders
+      })
+
+    } catch (error) {
+      return res.status(500).json({
+        success: false,
+        message: `Api error ${error.message}`
+      })
+    }
+}
