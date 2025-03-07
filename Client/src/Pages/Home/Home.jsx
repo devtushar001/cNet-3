@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Pagination, Autoplay } from "swiper/modules";
+import {Link} from 'react-router-dom';
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
@@ -53,7 +54,21 @@ const Home = () => {
             </div>
           </div>
           <div className="second">
-            
+
+            <div className="introduction">
+              <img src={assets.me} alt="" />
+              <div className="intro">
+                <h2>Aboute Me</h2>
+                <br />
+                <br />
+                <p>I am fullstack developer with the MERN Technology.</p>
+                <p>You can for your project purposes.</p>
+                <br /><br />
+                <Link to="/hire-me"><button>View more.</button>
+                </Link>
+                
+              </div>
+            </div>
           </div>
         </div>
       </div>
