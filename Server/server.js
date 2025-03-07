@@ -14,6 +14,7 @@ import textEditorRouter from './Router/textEditorRoutes.js';
 import cartRouter from './Router/cartRouter.js';
 import shopCategoryRouter from './Router/shopCategoryRouter.js';
 import shopProductRouter from './Router/shopProductRouter.js';
+import hireMeRouter from './Router/hireMeRouter.js';
 
 dotenv.config();
 
@@ -51,6 +52,7 @@ app.use('/api/text-edit', textEditorRouter);
 app.use('/api/user-cart', cartRouter);
 app.use('/api/shop-category', shopCategoryRouter);
 app.use('/api/shop-products', shopProductRouter);
+app.use('/api/contact-me', hireMeRouter)
 
 app.get('/', (req, res) => {
   res.status(200).json({

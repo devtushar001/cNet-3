@@ -1,13 +1,44 @@
-import React, { useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import './HireMe.css';
 import { assets } from "../../assets/escomData";
-
-
+import { toast } from "react-toastify";
+import { EscomContext } from "../../Context/escomContext";
 
 const HireMe = () => {
     useEffect(() => {
         window.scrollTo(0, 0);
-    })
+    }, []);
+
+    const { backend_url } = useContext(EscomContext);
+    const [data, setData] = useState({
+        name: "",
+        email: "",
+        message: ""
+    });
+
+    const hireMe = async () => {
+        try {
+            const response = await fetch(`${backend_url}/api/contact-me/hire`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            });
+            const result = await response.json();
+            if (!response.ok) throw new Error(result.message || "Something went wrong.");
+            if (!result.success) return toast.error(result.message);
+            toast.success(result.message);
+            setData({
+                name: "",
+                email: "",
+                message: ""
+            })
+        } catch (error) {
+            toast.error(error.message);
+        }
+    };
+
     return (
         <>
             <div className="hire-me-container">
@@ -17,7 +48,7 @@ const HireMe = () => {
                         <h1>Mr. Tushar</h1>
                     </div>
                     <div className="right">
-                        <section class="hire-me">
+                        <section className="hire-me">
                             <h1>Hire Me</h1>
                             <br />
                             <p>Hey there!,</p>
@@ -37,22 +68,21 @@ const HireMe = () => {
                                 Let’s collaborate and build something exceptional. <strong>Get in touch today!</strong>
                             </p>
                             <br />
-                            <a href="mailto:dev.mrtushar01@gmail.com" class="hire-btn">Hire Me</a>
+                            <a href="mailto:dev.mrtushar01@gmail.com" className="hire-btn">Hire Me</a>
                         </section>
-
                     </div>
                 </div>
                 <div className="middle">
                     <div className="left">
-                        <a style={{ textDecoration: 'none', color: 'gray' }} target="_blank" href="https://www.linkedin.com/in/devtushar01"><li>Linkedin</li></a>
-                        <a style={{ textDecoration: 'none', color: 'gray' }} target="_blank" href="https://github.com/devtushar001"><li>Github</li></a>
-                        <a style={{ textDecoration: 'none', color: 'gray' }} target="_blank" href="https://leetcode.com/u/_devtushar001/"><li>Leatcode</li></a>
+                        <a style={{ textDecoration: 'none', color: 'gray' }} target="_blank" rel="noopener noreferrer" href="https://www.linkedin.com/in/devtushar01"><li>Linkedin</li></a>
+                        <a style={{ textDecoration: 'none', color: 'gray' }} target="_blank" rel="noopener noreferrer" href="https://github.com/devtushar001"><li>Github</li></a>
+                        <a style={{ textDecoration: 'none', color: 'gray' }} target="_blank" rel="noopener noreferrer" href="https://leetcode.com/u/_devtushar001/"><li>Leetcode</li></a>
                     </div>
                     <div className="right">
-                        <section class="my-skills">
+                        <section className="my-skills">
                             <h2>My Skills & Expertise</h2>
-                            <div class="skills-container">
-                                <div class="skill-category">
+                            <div className="skills-container">
+                                <div className="skill-category">
                                     <h3>Frontend Development</h3>
                                     <ul>
                                         <li>HTML5, CSS3, JavaScript (ES6+)</li>
@@ -64,7 +94,7 @@ const HireMe = () => {
                                     </ul>
                                 </div>
 
-                                <div class="skill-category">
+                                <div className="skill-category">
                                     <h3>Backend Development</h3>
                                     <ul>
                                         <li>Node.js, Express.js</li>
@@ -75,7 +105,7 @@ const HireMe = () => {
                                     </ul>
                                 </div>
 
-                                <div class="skill-category">
+                                <div className="skill-category">
                                     <h3>Database & Storage</h3>
                                     <ul>
                                         <li>MongoDB, Mongoose</li>
@@ -85,7 +115,7 @@ const HireMe = () => {
                                     </ul>
                                 </div>
 
-                                <div class="skill-category">
+                                <div className="skill-category">
                                     <h3>Tools & Other Skills</h3>
                                     <ul>
                                         <li>Git & GitHub</li>
@@ -100,10 +130,10 @@ const HireMe = () => {
                     </div>
                 </div>
                 <div className="bottom">
-                    <input type="text" name="name" id="name" placeholder="Enter your name" />
-                    <input type="email" name="email" id="email" placeholder="Enter your email id" />
-                    <textarea name="message" id="message"></textarea>
-                    <button>Submit</button>
+                    <input value={data.name} onChange={(e) => setData((prev) => ({ ...prev, name: e.target.value }))} type="text" name="name" id="name" placeholder="Enter your name" />
+                    <input value={data.email} onChange={(e) => setData((prev) => ({ ...prev, email: e.target.value }))} type="email" name="email" id="email" placeholder="Enter your email id" />
+                    <textarea value={data.message} onChange={(e) => setData((prev) => ({ ...prev, message: e.target.value }))} style={{ padding: "20px" }} name="message" id="message"></textarea>
+                    <button onClick={hireMe}>Submit</button>
                 </div>
             </div>
         </>

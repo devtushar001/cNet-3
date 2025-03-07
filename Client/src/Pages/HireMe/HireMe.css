@@ -75,3 +75,7 @@
 .hire-me-container .bottom button {
     cursor: pointer;
 }
+
+ul li {
+    list-style: none;
+}
