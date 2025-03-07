@@ -55,6 +55,9 @@ import text_editor_icon from './content-creator.png'
 import TextEditor from '../Components/Projects/TextEditor';
 import me from './me.jpeg';
 import me_one from './me-one.jpg';
+import php_icon from './web.png';
+import react_icon from './physics.png';
+import node_icon from './node-js.png';
 
 
 export const assets = {
@@ -89,7 +92,10 @@ export const assets = {
   image_upload_icon,
   text_editor_icon,
   me,
-  me_one
+  me_one,
+  php_icon,
+  react_icon,
+  node_icon
 };
 
 export const escomData = [
@@ -396,128 +402,3 @@ export const blogData = [
     createdAt: "2025-02-18T17:00:00Z"
   }
 ];
-
-export const productData = [
-  {
-    _id: 1,
-    featuredImg: "https://cdn.mos.cms.futurecdn.net/ThiXKkp4sA5QGWVKDWyt6g.jpg",
-    galleryImg: [],
-    title: "Wireless Noise-Canceling Headphones",
-    category: "Electronics",
-    brand: "Sony",
-    stock: 14,
-    price: 299.99,
-    description: "Experience premium sound quality with advanced noise cancellation.",
-    createdAt: "2025-02-18T10:00:00Z"
-  },
-  {
-    _id: 2,
-    featuredImg: "https://w3layouts.b-cdn.net//wp-content/uploads/2021/12/Shoppy-Kart-Website-Template-eCommerce-350x219.jpg",
-    galleryImg: [],
-    title: "E-commerce Website Template",
-    category: "Websites",
-    brand: "Custom",
-    stock: 17,
-    price: 99.99,
-    description: "A fully responsive e-commerce website template built with React and Tailwind CSS.",
-    createdAt: "2025-02-18T11:00:00Z"
-  },
-  {
-    _id: 3,
-    featuredImg: "https://smashingdocs.com/wp-content/uploads/2024/11/qr-code-templates-generator.png",
-    galleryImg: [],
-    title: "QR Code Generator",
-    category: "Single Page Tools",
-    brand: "Utility",
-    stock: 23,
-    price: 0,
-    description: "Generate QR codes instantly with our easy-to-use online tool.",
-    createdAt: "2025-02-18T12:00:00Z"
-  },
-  {
-    _id: 4,
-    featuredImg: "https://5.imimg.com/data5/ECOM/Default/2023/4/302332988/PA/XU/KQ/40788096/image-bcabdfee-29db-405c-98dc-7a28106da233-500x500.jpg",
-    galleryImg: [],
-    title: "Universal Laptop Stand",
-    category: "Universal",
-    brand: "ErgoTech",
-    stock: 17,
-    price: 49.99,
-    description: "An adjustable and portable laptop stand suitable for all laptop sizes.",
-    createdAt: "2025-02-18T13:00:00Z"
-  },
-  {
-    _id: 5,
-    featuredImg: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR1F2CL80l2wJhmFXXgvX7q2Mp_Ag_Oqx5yJA&s",
-    galleryImg: [],
-    title: "Smartwatch with Health Tracking",
-    category: "Electronics",
-    brand: "FitBit",
-    stock: 13,
-    price: 199.99,
-    description: "Track your health and fitness with this advanced smartwatch.",
-    createdAt: "2025-02-18T14:00:00Z"
-  },
-  {
-    _id: 6,
-    featuredImg: "https://w3layouts.b-cdn.net//wp-content/uploads/2022/12/UI-Portfolio-Website-Template-scaled.jpg",
-    galleryImg: [],
-    title: "Portfolio Website Template",
-    category: "Websites",
-    brand: "Custom",
-    stock: 14,
-    price: 49.99,
-    description: "A sleek and modern portfolio website template for developers and designers.",
-    createdAt: "2025-02-18T15:00:00Z"
-  },
-  {
-    _id: 7,
-    featuredImg: "https://eternitech.com/wp-content/plugins/eternitech-addons/assets/img/how-to-use-infographics-6.png",
-    galleryImg: ["https://cdn.pixabay.com/photo/2023/08/30/12/37/leaves-8223213_960_720.jpg", "https://cdn.pixabay.com/photo/2021/09/07/11/05/ocean-6603616_1280.jpg"],
-    title: "Online JSON Formatter",
-    category: "Single Page Tools",
-    brand: "Utility",
-    stock: 10,
-    price: 0,
-    description: "Format and validate JSON data with this simple online tool.",
-    createdAt: "2025-02-18T16:00:00Z"
-  },
-  {
-    _id: 8,
-    featuredImg: "https://images.unsplash.com/photo-1593941707874-ef25b8b4a92b?q=80&w=1472&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    galleryImg: ["https://plus.unsplash.com/premium_photo-1669324357471-e33e71e3f3d8?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D", "https://images.unsplash.com/photo-1605496036006-fa36378ca4ab?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D", "https://plus.unsplash.com/premium_photo-1681506669115-cb6b2d30dbc7?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"],
-    title: "Universal Wireless Charging Pad",
-    category: "Universal",
-    brand: "TechZone",
-    stock: 5,
-    price: 39.99,
-    description: "Charge multiple devices wirelessly with this universal charging pad.",
-    createdAt: "2025-02-18T17:00:00Z"
-  }
-];
-
-
-// 
-// const data = async () => {
-//   try {
-//     const response = await fetch("http://localhost:10017/api/shop-products/get-all", {
-//       method: "GET",
-//       headers: {
-//         "Content-Type": "application/json",
-//       },
-//     });
-
-//     if (!response.ok) {
-//       throw new Error(`HTTP error! Status: ${response.status}`);
-//     }
-
-//     const result = await response.json();
-//     console.log(result);
-//     return result.data;
-//   } catch (error) {
-
-//     console.error("Error fetching data:", error);
-//   }
-// };
-
-// export const productData = data();

@@ -3,17 +3,13 @@ import './SearchPage.css';
 
 const SearchPage = () => {
    return (
-    <>
-     <ul >
-      <br />
-      <br />
-      <li>Capital of america</li>
-      <br />
-      <li>Chatgpt full course</li>
-      <br />
-      <li>Which ai is the better one</li>
-     </ul>
-    </>
+      <>
+         <ul >
+            <li>Capital of america</li>
+            <li>Chatgpt full course</li>
+            <li>Which ai is the better one</li>
+         </ul>
+      </>
    )
 }
 

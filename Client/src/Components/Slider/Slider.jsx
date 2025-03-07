@@ -4,11 +4,11 @@ import { assets } from "../../assets/escomData";
 
 const Slider = () => {
   const images = [
-    assets.slide_one, 
-    assets.slide_two, 
-    assets.slide_three, 
-    assets.slide_four, 
-    assets.slide_five, 
+    assets.slide_one,
+    assets.slide_two,
+    assets.slide_three,
+    assets.slide_four,
+    assets.slide_five,
     assets.slide_six
   ];
 
@@ -37,20 +37,20 @@ const Slider = () => {
   return (
     <div className="slide">
       {/* Left navigation */}
-      <img 
-        src={assets.slide_left} 
-        onClick={() => updateIndex(imgIndex - 1)} 
-        id="left" 
-        alt="Previous" 
+      <img
+        src={assets.slide_left}
+        onClick={() => updateIndex(imgIndex - 1)}
+        id="left"
+        alt="Previous"
       />
-      
+
       {/* Images with animation */}
       {images.map((image, index) => (
         <img key={index} src={image} alt={`Slide ${index + 1}`} className={index === imgIndex ? "active" : ""} />
       ))}
 
       {/* Right navigation */}
-      <img src={assets.slide_right} onClick={() => updateIndex(imgIndex + 1)} id="right"  alt="Next" />
+      <img src={assets.slide_right} onClick={() => updateIndex(imgIndex + 1)} id="right" alt="Next" />
       <button id="visit-now">Visit Now.</button>
     </div>
   );

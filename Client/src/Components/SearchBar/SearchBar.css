@@ -8,6 +8,7 @@
 }
 
 #open-search {
+  position: relative;
   grid-template-columns: 1fr 120px;
 }
 
@@ -15,4 +16,34 @@
   height: 35px;
   padding: 0px 12px;
   outline-color: rgb(0, 126, 0);
+}
+
+.search-bar button {
+  cursor: pointer;
+}
+
+#open-search #search-history {
+  width: 95%;
+  height: 340px;
+  background: #24242448;
+  backdrop-filter: blur(2px);
+  z-index: 1000;
+  top: 50px;
+  position: absolute;
+  display: flex;
+  padding: 30px;
+}
+
+#open-search #search-history ul li {
+  list-style: none;
+  font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
+  line-height: 22px;
+  color: rgb(0, 80, 166);
+  cursor: pointer;
+  transition: all ease-in 0.2s;
+}
+
+#open-search #search-history ul li:hover {
+  border-bottom: 1px solid gray;
+  color: rgb(19, 19, 19);
 }

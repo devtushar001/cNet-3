@@ -40,9 +40,6 @@ app.use(rateLimit({
   max: 100,
 }));
 
-
-
-
 connectDB(mongo_url);
 cloudinarySetup(cloudName, cloudApiKey, cloudApiSecret)
 

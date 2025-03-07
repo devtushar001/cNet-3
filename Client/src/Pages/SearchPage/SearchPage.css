@@ -1,7 +1,13 @@
-ul li {
-    margin-left: 12px;
-    list-style: none;
-    font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
-    cursor: pointer;
+/* ul {
+    position: relative;
 }
 
+ul li {
+    position: absolute;
+    font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
+    margin-left: 12px;
+    list-style: none;
+    cursor: pointer;
+    line-height: 32px;
+}
+ */

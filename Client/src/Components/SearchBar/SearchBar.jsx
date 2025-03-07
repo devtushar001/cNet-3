@@ -19,13 +19,16 @@ const SearchBar = () => {
           <>
             <button onClick={() => setSearchPage(false)}>Close</button>
             <div id="search-history">
-              <SearchPage />
+              <ul>
+                <li>Search one</li>
+                <li>Search one</li>
+                <li>Search one</li>
+                <li>Search one</li>
+              </ul>
             </div>
           </>
-
         }
       </div>
-
     </>
   )
 }
