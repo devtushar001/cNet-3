@@ -32,7 +32,7 @@ const Navbar = () => {
           {!user ? <Link to='/login-signup'><button>Login User</button></Link> :<Link to='user-profile'> <button>Welcom {user.name.slice(0, 5)}...</button></Link>}
         </div>
       </div>
-      <div style={{ height: '120px' }} className="conflict-setup">
+      <div style={{ height: '71px' }} className="conflict-setup">
       </div>
     </>
   );
