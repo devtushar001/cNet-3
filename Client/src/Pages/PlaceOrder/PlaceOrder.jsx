@@ -123,7 +123,7 @@ const PlaceOrder = () => {
                         <input onChange={(e) => setData(prev => ({ ...prev, lastName: e.target.value }))} type="text" placeholder="Last name" />
                     </div>
                     <input onChange={(e) => setData(prev => ({ ...prev, email: e.target.value }))} type="email" placeholder="Email" />
-                    <textarea style={{ padding: "5px", minHeight: "120px", outlineColor: 'darkgreen' }}  onChange={(e) => setData(prev => ({ ...prev, fulladdress: e.target.value }))} placeholder="Home address"></textarea>
+                    <textarea style={{ padding: "5px", minHeight: "120px", outlineColor: 'darkgreen' }} onChange={(e) => setData(prev => ({ ...prev, fulladdress: e.target.value }))} placeholder="Home address"></textarea>
                     <div className="input">
                         <input onChange={(e) => setData(prev => ({ ...prev, street: e.target.value }))} type="text" placeholder="Street" />
                         <input onChange={(e) => setData(prev => ({ ...prev, city: e.target.value }))} type="text" placeholder="City" />
