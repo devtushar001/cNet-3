@@ -1,126 +1,126 @@
 import React, { useContext, useEffect, useState } from "react";
-import './UserProfile.css';
+import "./UserProfile.css";
 import { assets } from "../../assets/escomData";
 import { EscomContext } from "../../Context/escomContext";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
 const UserProfile = () => {
   const { backend_url, user, token, readDate } = useContext(EscomContext);
   const navigate = useNavigate();
 
-  const [userData, setUserData] = useState(null);
   const [orderData, setOrderData] = useState([]);
 
-  // Redirect if not logged in
   useEffect(() => {
-    if (!user) {
-      navigate('/login-signup');
-    }
+    if (!user) navigate("/login-signup");
   }, [user, navigate]);
 
   const logOut = () => {
-    localStorage.removeItem("user");
-    localStorage.removeItem("token");
-    navigate('/'); // React Router navigation instead of window.location.href
+    localStorage.clear(); // Clears all stored data at once
+    navigate("/");
   };
 
-  const fetchUser = async () => {
-    if (!token) return; // Prevent API call if token is missing
-
-    try {
-      const response = await fetch(`${backend_url}/api/user/get-user`, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      });
-
-      if (!response.ok) {
-        throw new Error(`Error: ${response.status} - ${response.statusText}`);
-      }
-
-      const data = await response.json();
-      setUserData(data.user);
-      toast.success(data.message);
-    } catch (error) {
-      toast.error(error.message);
-      setUserData(null);
-    }
-  };
-
-  useEffect(() => {
-    fetchUser();
-    window.scrollTo(0, 0);
-  }, [backend_url, token]);
-
-  const fetchOrder = async () => {
+  const fetchData = async () => {
     if (!token) return;
 
     try {
-      const response = await fetch(`${backend_url}/api/razorpay/get-order`, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const [userRes, orderRes] = await Promise.all([
+        fetch(`${backend_url}/api/user/get-user`, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }),
+        fetch(`${backend_url}/api/razorpay/get-order`, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }),
+      ]);
 
-      if (!response.ok) {
-        throw new Error(`Error: ${response.status} - ${response.statusText}`);
+      if (userRes.ok) {
+        const userData = await userRes.json();
+        toast.success(userData.message);
       }
 
-      const data = await response.json();
-      console.log(data.data)
-      setOrderData(data.data);
-      toast.success(data.message)
+      if (orderRes.ok) {
+        const orderData = await orderRes.json();
+        console.log(orderData.data)
+        setOrderData(orderData.data);
+        toast.success(orderData.message);
+      }
     } catch (error) {
-      console.error("Error fetching order data:", error.message);
+      console.error("Error fetching data:", error.message);
+      toast.error("Failed to fetch user or order data");
     }
   };
 
   useEffect(() => {
-    fetchOrder();
+    fetchData();
+    window.scrollTo(0, 0);
   }, [backend_url, token]);
 
   return (
     <div className="user-prfl">
-      <h1>{user ? "Howdy! " + user.name : "Loading..."}</h1>
       <div className="user-info">
-        <img src={assets.user_icon} alt="User Icon" />
-        <button onClick={logOut}>Log Out</button>
+        <div className="user-details">
+          <img src={assets.user_icon} alt="User Icon" className="user-icon" />
+          <h2>{user ? `${user.name}` : "Loading..."}</h2>
+        </div>
+        <div className="user-actions">
+          <Link to="/cart" className="cart-btn">
+            Go to Cart
+          </Link>
+          <button onClick={logOut} className="logout-btn">
+            Log Out
+          </button>
+        </div>
       </div>
       <hr />
       {orderData.length > 0 ? (
         orderData.map((order, index) => (
           <div key={index} className="order-card">
-            {/* Order Details */}
+            <h3>Order Details</h3>
             <div className="order-details">
               <p className="status">
-                Order Status:
-                <span className={order.status === "Pending" ? "pending" : "completed"}>
-                  {order.status}
+                <span className={order.payment ? "success" : "failled"}>
+                  {order.payment ? "Success" : "Failled"}
                 </span>
               </p>
               <p>Order ID: {order._id}</p>
-              <p>Total Amount: ₹{order.amount}</p>
+              <p>Paid Amount: ₹{order.amount}</p>
               <p>Placed on: {readDate(order.createdAt)}</p>
             </div>
-
-            {/* Cart Items */}
+            <div className="address-card">
+              <h3>Order Address</h3>
+              <div className="address-content">
+                <p>Placed by: {order.address.firstName} {order.address.lastName}</p>
+                <p>Contact: {order.address.email}</p>
+                <p>State: {order.address.state}</p>
+                <p>Street: {order.address.street}</p>
+                <p>Zipcode: {order.address.zipcode}</p>
+                <p>Address: {order.address.fulladdress}</p>
+              </div>
+            </div>
             <div className="cart-section">
-              <h2>Items Purchased</h2>
+              <h3>Items Purchased</h3>
               <div className="cart-grid">
                 {order.cartData.map((item, i) => (
-                  <div key={i} className="cart-item">
-                    <img src={item.featuredImg} alt={item.title} className="cart-img" />
-                    <div>
-                      <h3>{item.title}</h3>
-                      <p>Category: {item.shopCategory}</p>
-                      <p>Quantity: {item.quantity || 1}</p>
+                  <Link key={i} className="no-style" to={`/shops/${item._id}`}>
+                    <div className="cart-item">
+                      <img src={item.featuredImg} alt={item.title} className="cart-img" />
+                      <div>
+                        <h3>{item.title}</h3>
+                        <p>Category: {item.shopCategory}</p>
+                        <p>Price: {item.price}</p>
+                        <p>Quantity: {item.quantity || 1}</p>
+                        <p>Total Price : {Number(item.price) * Number(item.quantity)}</p>
+                      </div>
                     </div>
-                  </div>
+                  </Link>
                 ))}
               </div>
             </div>

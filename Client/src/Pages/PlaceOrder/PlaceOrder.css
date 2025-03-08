@@ -1,6 +1,6 @@
 .place-order {
     width: 85vw;
-    margin: 0 auto 50px auto;
+    margin: 20px auto 50px auto;
     display: flex;
     flex-wrap: wrap;
     gap: 30px;
