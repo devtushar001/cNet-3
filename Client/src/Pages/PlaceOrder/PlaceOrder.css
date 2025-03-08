@@ -48,6 +48,7 @@
     align-items: center;
     border: 1px solid #ddd;
     padding: 10px;
+    margin-bottom: 20px;
   }
   
   .place-order .right-container .cart-item img {

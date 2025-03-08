@@ -25,6 +25,7 @@ import Shops from './Pages/Shops/Shops';
 import ShowShop from './Components/ShowShop/ShowShop';
 import Videos from './Pages/Videos/Videos';
 import PlaceOrder from './Pages/PlaceOrder/PlaceOrder';
+import Cart from './Pages/Cart/Cart';
 
 function App() {
   const { navbar, setNavbar } = useContext(EscomContext);
@@ -53,6 +54,7 @@ function App() {
         <Route path='/about-us' element={<AboutUs />} />
         <Route path='/contact-us' element={<ContactUs />} />
         <Route path='/hire-me' element={<HireMe />} />
+        <Route path='/cart' element={<Cart/>} />
       </Routes>
       <Footer />
     </>
