@@ -79,7 +79,7 @@ export const createRazorPayOrderController = async (req, res) => {
 
     const rPI = razorPayInstance(razorPayKeyId, razorPayKeySecret);
     const options = {
-      amount: Number(totalAmount * 100), 
+      amount: Number(totalAmount * 100),
       currency: "INR",
       receipt: `receipt_order_${user._id}`,
     };
@@ -185,21 +185,51 @@ export const verifyRazorPayOrderController = async (req, res) => {
 };
 
 export const getUserOrderController = async (req, res) => {
-    try {
-      const userId = req.user._id;
-      console.log(userId);
-
-      const orders = await orderModel.find({ userId: userId });
-      return res.status(200).json({
-        success: true,
-        message: `Got it`,
-        data: orders
+  try {
+    const userId = req.user._id;
+    console.log(userId);
+    const orders = await orderModel.find({ userId: userId });
+    const ordersWithDetails = await Promise.all(
+      orders.map(async (order) => {
+        const cartDetails = await getCartDetails(order.cartData);
+        return { ...order.toObject(), cartData: cartDetails };
       })
+    );
 
-    } catch (error) {
-      return res.status(500).json({
-        success: false,
-        message: `Api error ${error.message}`
-      })
-    }
-}
+    return res.status(200).json({
+      success: true,
+      message: "Got it",
+      data: ordersWithDetails,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: `API error: ${error.message}`,
+    });
+  }
+};
+
+const getCartDetails = async (cartData) => {
+  try {
+    const carts = cartData || [];
+
+    const productPromises = carts.map((cart) =>
+      shopProductModel.findById(cart.productId)
+    );
+    const products = await Promise.all(productPromises);
+
+    return products
+      .map((product, index) =>
+        product
+          ? {
+              ...product.toObject(),
+              quantity: carts[index].quantity,
+            }
+          : null
+      )
+      .filter((product) => product !== null);
+  } catch (error) {
+    console.error("Error fetching cart details:", error.message);
+    return [];
+  }
+};

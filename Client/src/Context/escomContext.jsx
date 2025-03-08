@@ -20,12 +20,25 @@ const EscomContextProvider = ({ children }) => {
 
   const backend_url = "http://localhost:10017";
 
-  // Get user & token from localStorage
   const getUser = localStorage.getItem('user');
   const token = JSON.parse(localStorage.getItem('token'));
   const user = JSON.parse(getUser);
 
-  // Load cartData from localStorage when component mounts
+
+  function readDate(date) {
+    const readableDate = new Date(date).toLocaleString("en-IN", {
+      weekday: "long",
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
+      second: "2-digit",
+      hour12: true
+    });
+    return readableDate;
+  }
+
   useEffect(() => {
     const storedCart = localStorage.getItem("cartData");
     if (storedCart) {
@@ -143,6 +156,7 @@ const EscomContextProvider = ({ children }) => {
     setProductData,
     cartItem,
     setCartItem,
+    readDate
   };
 
   return (
