@@ -58,7 +58,8 @@ import me_one from './me-one.jpg';
 import php_icon from './web.png';
 import react_icon from './physics.png';
 import node_icon from './node-js.png';
-
+import layout_icon from './layout.png';
+import app_development_icon from './app-development.png';
 
 export const assets = {
   large,
@@ -95,7 +96,9 @@ export const assets = {
   me_one,
   php_icon,
   react_icon,
-  node_icon
+  node_icon,
+  layout_icon,
+  app_development_icon
 };
 
 export const escomData = [
@@ -279,31 +282,13 @@ export const escomData = [
 ];
 
 export const courseCategory = [
-  { _id: 1, name: 'HTML', img: app_icon },
-  { _id: 2, name: 'CSS', img: app_icon },
-  { _id: 3, name: 'JavaScript', img: app_icon },
-  { _id: 4, name: 'React', img: app_icon },
-  { _id: 5, name: 'Node.js', img: app_icon },
-  { _id: 6, name: 'Express.js', img: app_icon },
-  { _id: 7, name: 'MongoDB', img: app_icon },
-  { _id: 8, name: 'SQL', img: app_icon },
-  { _id: 9, name: 'PHP', img: app_icon },
-  { _id: 10, name: 'Python', img: app_icon },
-  { _id: 11, name: 'Java', img: app_icon },
-  { _id: 12, name: 'C', img: app_icon },
-  { _id: 13, name: 'C++', img: app_icon },
-  { _id: 14, name: 'Data Structures & Algorithms', img: app_icon },
-  { _id: 15, name: 'Git & GitHub', img: app_icon },
-  { _id: 16, name: 'Bootstrap', img: app_icon },
-  { _id: 17, name: 'Tailwind CSS', img: app_icon },
-  { _id: 18, name: 'TypeScript', img: app_icon },
-  { _id: 19, name: 'Next.js', img: app_icon },
-  { _id: 20, name: 'GraphQL', img: app_icon },
-  { _id: 21, name: 'Redux', img: app_icon },
-  { _id: 22, name: 'Firebase', img: app_icon },
-  { _id: 23, name: 'Docker', img: app_icon },
-  { _id: 24, name: 'Kubernetes', img: app_icon },
-  { _id: 25, name: 'AWS', img: app_icon }
+  { _id: 1, name: 'SyncIOT', img: app_icon },
+  { _id: 2, name: 'Calci', img: app_icon },
+  { _id: 3, name: 'Chat', img: app_icon },
+  { _id: 4, name: 'AI', img: app_icon },
+  { _id: 5, name: 'Music', img: app_icon },
+  { _id: 6, name: 'Vision', img: app_icon },
+  { _id: 7, name: 'Others', img: app_icon },
 ];
 
 export const blogsCategory = [

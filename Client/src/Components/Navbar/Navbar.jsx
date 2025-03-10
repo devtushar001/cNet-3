@@ -6,7 +6,7 @@ import { EscomContext } from "../../Context/escomContext";
 import { imageData } from "../../assets/dochakiData";
 
 const Navbar = () => {
-  const { navbar, setNavbar, user } = useContext(EscomContext);
+  const { navbar, setNavbar } = useContext(EscomContext);
 
   const reloadWebPage = () => {
     window.location.reload()
@@ -19,17 +19,16 @@ const Navbar = () => {
           <div onClick={() => setNavbar(!navbar)} className="menu-icon">
             <img src={!navbar ? imageData.menu_icon : imageData.close_icon} alt="Menu Icon" />
             {!navbar ? <span>Menu</span> : <span>Close</span>}
+            {!navbar ?
+              <>
+                <Link style={{marginTop: "5px"}} to='/search-querry'><img src={imageData.search_icon} alt="Search Icon" /></Link>
+                <Link style={{marginTop: "5px"}} to='/contact-us'> <img src={imageData.location_icon} alt="Location Icon" /></Link>
+              </>
+              : ""}
           </div>
-          {!navbar ?
-            <>
-              <Link to='/search-querry'><img src={imageData.search_icon} alt="Search Icon" /></Link>
-              <Link to='/contact-us'> <img src={imageData.location_icon} alt="Location Icon" /></Link>
-            </>
-            : ""}
         </div>
         <div className="right">
           <img onClick={reloadWebPage} src={assets.cNet} alt="Dochaki Logo" />
-          {!user ? <Link to='/login-signup'><button>Login User</button></Link> :<Link to='user-profile'> <button>Welcom {user.name.slice(0, 5)}...</button></Link>}
         </div>
       </div>
       <div style={{ height: '71px' }} className="conflict-setup">

@@ -59,59 +59,42 @@ const Home = () => {
         <div className="image-slider">
           <img src={images[1]} alt="" />
         </div>
-        <div className="page-details">
-          <div className="first">
-            <div className="box">
-              <img src={assets.php_icon} alt="" />
-              <div className="explore">UI Templates</div>
-            </div>
-            <div className="box">
-              <img src={assets.react_icon} alt="" />
-              <div className="explore">IOT Web Apps</div>
-            </div>
-            <div className="box">
-              <img src={assets.node_icon} alt="" />
-              <div className="explore">Web Apps</div>
-            </div>
+        <div className="page-details"></div>
+        <section className="home-section">
+          <div className="content">
+            <h2>Professional UI Templates</h2>
+            <p>
+              Get high-quality UI templates designed for modern web applications. Our templates are easy to integrate, responsive, and optimized for performance.
+            </p>
+            <Link to={`/shops`}><button className="btn">Explore Templates</button></Link> 
           </div>
+          <div className="image">
+            <img style={{ height: "330px" }} src={assets.layout_icon} alt="UI Templates" />
+          </div>
+        </section>
 
-          <section className="offerings-container">
-            <h2>Our Offerings</h2>
-            <div className="offerings-grid">
-              {offerings.map((item, index) => (
-                <div className="offering-card" key={index}>
-                  <img src={item.img} alt={item.title} />
-                  <h3>{item.title}</h3>
-                  <p>{item.description}</p>
-                  <Link to="/contact">
-                    <button className="explore-btn">Explore</button>
-                  </Link>
-                </div>
-              ))}
-            </div>
-          </section>
-          <div className="second">
-            <section className="introduction-container">
-              <div className="introduction">
-                <div className="image-container">
-                  <img src={assets.me} alt="Profile" />
-                </div>
-                <div className="intro-content">
-                  <h2>About Me</h2>
-                  <p>
-                    I am a passionate <strong>Full-Stack Developer</strong> specializing in the <strong>MERN</strong> stack.
-                  </p>
-                  <p>
-                    If you're looking for a developer to bring your ideas to life, I’m available for your project needs.
-                  </p>
-                  <Link to="/hire-me">
-                    <button className="hire-me-btn">Hire Me</button>
-                  </Link>
-                </div>
-              </div>
-            </section>
+        <section className="home-section reverse">
+          <div className="content">
+            <h2>Web Applications</h2>
+            <p>
+              We develop custom web applications tailored to your business needs. Our solutions are scalable, secure, and user-friendly.
+            </p>
+             <Link to={`/courses`}> <button className="btn">Get Your Web App</button></Link>  
           </div>
-        </div>
+          <div className="image">
+            <img style={{ height: "330px" }} src={assets.app_development_icon} alt="Web Applications" />
+          </div>
+        </section>
+        <section className="home-section hire-me">
+          <div className="content">
+            <h2>Hire Me</h2>
+            <p>Looking for a skilled developer? I am available for freelance projects, custom development, and consulting.</p>
+           <Link to={`/hire-me`}>  <button className="btn">Contact Me</button></Link>
+          </div>
+          <div className="image">
+            <img style={{ height: "330px" }}  src={assets.me_one} alt="Hire Me" />
+          </div>
+        </section>
       </div>
     </>
   );

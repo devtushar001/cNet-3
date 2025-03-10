@@ -2,116 +2,80 @@ import React, { useContext, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import './NavbarOption.css';
 import { EscomContext } from '../../Context/escomContext';
-import { assets, blogsCategory, courseCategory, escomData } from '../../assets/escomData';
+import { blogsCategory, courseCategory, escomData } from '../../assets/escomData';
 
 const NavbarOption = () => {
-   const { setNavbar,
-      blogCat,
-      setBlogCat,
-      courseCat,
-      setCourseCat,
-      shopCat,
-      setShopCat, backend_url } = useContext(EscomContext);
-
+   const { setNavbar, setBlogCat, setCourseCat, setShopCat, user, backend_url } = useContext(EscomContext);
    const [shopCategory, setShopCategory] = useState([]);
-
-   useEffect(() => {
-      console.log(blogCat);
-   }, [blogCat]);
-
 
    useEffect(() => {
       const fetchShopCategory = async () => {
          try {
             const response = await fetch(`${backend_url}/api/shop-category/get-all`);
             const result = await response.json();
-            console.log(result);
             if (result.success) {
                setShopCategory(result.shopCategories);
-            } else {
-               toast.error(result.message);
             }
          } catch {
-            toast.error("Error fetching categories");
+            console.error("Error fetching categories");
          }
       };
       fetchShopCategory();
-   }, []);
+   }, [backend_url]);
 
    return (
-      <div className="navbar-option">
-         <ul className="menu-item">
-            <li><Link onClick={() => setNavbar(false)} to="/" className="no-style">Home</Link></li>
-            <li className="dropdown">
-               <span><Link to='/shops' onClick={() => { setNavbar(false); setShopCat('All') }} className="no-style">UI-Templates</Link> </span>
-               <ul className="dropdown-menu">
-                  {shopCategory.map((shopCatg) => {
-                     return (
-                        <li key={shopCatg._id}>
-                           <Link onClick={() => { setNavbar(false); setShopCat(shopCatg.shopCategoryName) }} to={`/shops`} className="no-style">
-                              {shopCatg.shopCategoryName}
-                           </Link>
-                        </li>
-                     )
-                  })}
-               </ul>
-            </li>
-            <li className="dropdown">
-               <Link onClick={() => setNavbar(false)} to='/projects' className='no-style'><span>Free-Projects</span></Link>
-               <ul className="dropdown-menu">
-                  {escomData.map((item, i) => {
-                     return (
-                        <li key={item._id}>
-                           <Link onClick={() => setNavbar(false)} to={`/projects/${item._id}`} className="no-style">
-                              {item.name}
-                           </Link>
-                        </li>
-                     )
-                  })}
-               </ul>
-            </li>
-            <li><Link onClick={() => setNavbar(false)} to="/hire-me" className="no-style">Hire me</Link></li>
-            <li className="dropdown">
-               <Link onClick={() => setNavbar(false)} to="/courses" className="no-style">Courses</Link>
-               <ul className="dropdown-menu">
-                  {courseCategory.map((item) => (
-                     <li key={item._id}>
-                        <Link onClick={() => setNavbar(false)} to={`/courses/${item._id}`} className="no-style">
-                           {item.name}
+      <nav className="navbar-option">
+         <ul className="navbar-option__menu">
+            <li><Link className='no-style' onClick={() => setNavbar(false)} to="/">Home</Link></li>
+            <li className="navbar-option__dropdown">
+               <Link className='no-style' to='/shops' onClick={() => { setNavbar(false); setShopCat('All') }}>UI-Templates</Link>
+               <ul className="navbar-option__dropdown-menu">
+                  {shopCategory.map(({ _id, shopCategoryName }) => (
+                     <li key={_id}>
+                        <Link className='no-style' onClick={() => { setNavbar(false); setShopCat(shopCategoryName) }} to='/shops'>
+                           {shopCategoryName}
                         </Link>
                      </li>
                   ))}
                </ul>
             </li>
-
-            <li className="dropdown">
-               <span><Link to='/blogs' onClick={() => { setNavbar(false); setBlogCat('All') }} className="no-style">Blogs</Link> </span>
-               <ul className="dropdown-menu">
-                  {blogsCategory.map((blogCat) => {
-                     return (
-                        <li key={blogCat._id}>
-                           <Link
-                              onClick={(e) => {
-                                 setNavbar(false);
-                                 setBlogCat(blogCat.name);
-                              }}
-                              to={`/blogs`}
-                              className="no-style">
-                              {blogCat.name}
-                           </Link>
-                        </li>
-                     );
-                  })}
+            <li className="navbar-option__dropdown">
+               <Link className='no-style' to="/courses" onClick={() => setNavbar(false)}>Web Apps</Link>
+               <ul className="navbar-option__dropdown-menu">
+                  {courseCategory.map(({ _id, name }) => (
+                     <li key={_id}>
+                        <Link className='no-style' onClick={() => setNavbar(false)} to={`/courses/${_id}`}>{name}</Link>
+                     </li>
+                  ))}
                </ul>
             </li>
-
-
-          
-
-            <li><Link onClick={() => setNavbar(false)} to="/videos" className="no-style">Videos</Link></li>
-            <li><Link onClick={() => setNavbar(false)} to="/about-me" className="no-style">About me</Link></li>
+            <li><Link className='no-style' onClick={() => setNavbar(false)} to="/hire-me">Hire me</Link></li>
+            <li className="navbar-option__dropdown">
+               <Link className='no-style' to='/projects' onClick={() => setNavbar(false)}>Free-Projects</Link>
+               <ul className="navbar-option__dropdown-menu">
+                  {escomData.map(({ _id, name }) => (
+                     <li key={_id}>
+                        <Link className='no-style' onClick={() => setNavbar(false)} to={`/projects/${_id}`}>{name}</Link>
+                     </li>
+                  ))}
+               </ul>
+            </li>
+            <li className="navbar-option__dropdown">
+               <Link className='no-style' to='/blogs' onClick={() => { setNavbar(false); setBlogCat('All') }}>Blogs</Link>
+               <ul className="navbar-option__dropdown-menu">
+                  {blogsCategory.map(({ _id, name }) => (
+                     <li key={_id}>
+                        <Link className='no-style' onClick={() => { setNavbar(false); setBlogCat(name) }} to='/blogs'>{name}</Link>
+                     </li>
+                  ))}
+               </ul>
+            </li>
+            <li><Link className='no-style' onClick={() => setNavbar(false)} to="/videos">Videos</Link></li>
+            <li><Link className='no-style' onClick={() => setNavbar(false)} to="/about-me">About me</Link></li>
+            {!user ? <Link className='no-style' to='/login-signup'><button className="navbar-option__button">Login</button></Link> :
+               <Link className='no-style' to='/user-profile'><button className="navbar-option__button">Welcome {user.name.slice(0, 5)}...</button></Link>}
          </ul>
-      </div>
+      </nav>
    );
 };
 
