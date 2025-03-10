@@ -5,7 +5,6 @@ export const createShopCategoryController = async (req, res) => {
     try {
         const { shopCategoryName,
             shopCategoryImage } = req.body;
-console.log(req.body)
         if (!shopCategoryName || !shopCategoryImage) {
             return res.status(404).json({
                 success: false,
@@ -57,6 +56,39 @@ export const getShopCategoryController = async (req, res) => {
         return res.status(500).json({
             success: false,
             message: `API error: ${error.message}`,
+        });
+    }
+};
+
+export const deleteShopCategoryController = async (req, res) => {
+    try {
+        const { categoryId } = req.body;
+
+        if (!categoryId) {
+            return res.status(400).json({
+                success: false,
+                message: "Category ID is required."
+            });
+        }
+
+        const deleteCategory = await shopCategoryModel.findByIdAndDelete(categoryId);
+
+        if (!deleteCategory) {
+            return res.status(404).json({
+                success: false,
+                message: "Category not found."
+            });
+        }
+
+        return res.status(200).json({
+            success: true,
+            message: "Category deleted successfully."
+        });
+
+    } catch (error) {
+        return res.status(500).json({
+            success: false,
+            message: `API error: ${error.name} - ${error.message}`
         });
     }
 };
