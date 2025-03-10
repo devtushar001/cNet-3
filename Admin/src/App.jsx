@@ -6,6 +6,7 @@ import Navbar from './Components/Navbar/Navbar';
 import Sidebar from './Components/Sidebar/Sidebar';
 import { ToastContainer } from 'react-toastify';
 import Blogs from './Pages/Blogs/Blogs';
+import ProductDetails from './Pages/ProductDetails/ProductDetails';
 
 function App() {
 
@@ -18,6 +19,7 @@ function App() {
         <Route path='/' element={<Home />} />
         <Route path='/add-products' element={<Products />} />
         <Route path='/add-blogs' element={<Blogs/>} />
+        <Route path='/product-details' element={<ProductDetails/>} />
       </Routes>
     </>
   )

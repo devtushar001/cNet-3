@@ -95,3 +95,36 @@ export const getSingleShopProductController = async (req, res) => {
         res.status(500).json({ error: error.message });
     }
 };
+
+
+export const deleteShopProductController = async (req, res) => {
+    try {
+        const { productId } = req.body;
+        if (!productId) {
+            return res.status(400).json({
+                success: false,
+                message: "Invalid request: productId is required."
+            });
+        }
+
+        const deleteProduct = await shopProductModel.findByIdAndDelete(productId);  // Pass only the ID
+
+        if (!deleteProduct) {
+            return res.status(404).json({  // 404 if product doesn't exist
+                success: false,
+                message: "Product not found."
+            });
+        }
+
+        return res.status(200).json({
+            success: true,
+            message: "Product deleted successfully."
+        });
+
+    } catch (error) {
+        return res.status(500).json({
+            success: false,
+            message: `API error: ${error.name} - ${error.message}`
+        });
+    }
+};
