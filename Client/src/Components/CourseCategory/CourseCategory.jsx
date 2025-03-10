@@ -8,7 +8,7 @@ const CourseCategory = () => {
     return (
         <>
             <div className="course-category">
-                <h2 style={{ background: "skyblue", padding: '20px', color: '#fff' }}>"Explore Our Exclusive Collection of Courses Designed Just for You! Learn, Grow, and Master New Skills in Web Development, Programming, and More!"</h2>
+                <h2 id="h2" >"Explore Our Web Apps – Designed to Enhance Your Experience! Discover Powerful Tools for Development, Productivity, and More!"</h2>
                 {courseCategory.map((item, i) => {
                     return (
                         <div className="single-course">

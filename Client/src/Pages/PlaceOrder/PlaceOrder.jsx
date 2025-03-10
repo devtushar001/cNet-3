@@ -116,39 +116,7 @@ const PlaceOrder = () => {
 
     return (
         <div className="place-order">
-            <div className="left-container">
-                <div className="user-data">
-                    <div className="input">
-                        <input onChange={(e) => setData(prev => ({ ...prev, firstName: e.target.value }))} type="text" placeholder="First name" />
-                        <input onChange={(e) => setData(prev => ({ ...prev, lastName: e.target.value }))} type="text" placeholder="Last name" />
-                    </div>
-                    <input onChange={(e) => setData(prev => ({ ...prev, email: e.target.value }))} type="email" placeholder="Email" />
-                    <textarea style={{ padding: "5px", minHeight: "120px", outlineColor: 'darkgreen' }}  onChange={(e) => setData(prev => ({ ...prev, fulladdress: e.target.value }))} placeholder="Home address"></textarea>
-                    <div className="input">
-                        <input onChange={(e) => setData(prev => ({ ...prev, street: e.target.value }))} type="text" placeholder="Street" />
-                        <input onChange={(e) => setData(prev => ({ ...prev, city: e.target.value }))} type="text" placeholder="City" />
-                    </div>
-                    <input onChange={(e) => setData(prev => ({ ...prev, state: e.target.value }))} type="text" placeholder="State" />
-                    <input onChange={(e) => setData(prev => ({ ...prev, zipcode: e.target.value }))} type="text" placeholder="Zipcode" />
-                    <div className="item-info">
-                        <div className="cart-amount">
-                            <p>Total Cart Amount</p><p>&#8377; {totalPrice.toFixed(2)}</p>
-                        </div>
-                        <hr />
-                        <div className="cart-amount">
-                            <p>Shipping Charge</p><p>&#8377; {0}</p>
-                        </div>
-                        <hr />
-                        <div className="cart-amount" style={{ fontWeight: "bold" }}>
-                            <p>Total Amount</p><p>&#8377; {totalPrice.toFixed(2)}</p>
-                        </div>
-                    </div>
-                    <div className="total-payment">
-                        <button style={{ padding: '10px 20px', width: '100%', cursor: 'pointer', color: '#fff', background: '#f76300', border: 'none' }} className="place-order-btn" onClick={razorPayPlaceOrder}>Place Order</button>
-                    </div>
-                </div>
-            </div>
-            <div className="right-container">
+             <div className="right-container">
                 <h2>Order Summary</h2>
                 <hr />
                 <div className="cart-items">
@@ -170,6 +138,39 @@ const PlaceOrder = () => {
                     )}
                 </div>
             </div>
+            <div className="left-container">
+                <div className="user-data">
+                    <div className="input">
+                        <input onChange={(e) => setData(prev => ({ ...prev, firstName: e.target.value }))} type="text" placeholder="First name" />
+                        <input onChange={(e) => setData(prev => ({ ...prev, lastName: e.target.value }))} type="text" placeholder="Last name" />
+                    </div>
+                    <input onChange={(e) => setData(prev => ({ ...prev, email: e.target.value }))} type="email" placeholder="Email" />
+                    <textarea id="text-area" onChange={(e) => setData(prev => ({ ...prev, fulladdress: e.target.value }))} placeholder="Home address"></textarea>
+                    <div className="input">
+                        <input onChange={(e) => setData(prev => ({ ...prev, street: e.target.value }))} type="text" placeholder="Street" />
+                        <input onChange={(e) => setData(prev => ({ ...prev, city: e.target.value }))} type="text" placeholder="City" />
+                    </div>
+                    <input onChange={(e) => setData(prev => ({ ...prev, state: e.target.value }))} type="text" placeholder="State" />
+                    <input onChange={(e) => setData(prev => ({ ...prev, zipcode: e.target.value }))} type="text" placeholder="Zipcode" />
+                    <div className="item-info">
+                        <div className="cart-amount">
+                            <p>Total Cart Amount</p><p>&#8377; {totalPrice.toFixed(2)}</p>
+                        </div>
+                        <hr />
+                        <div className="cart-amount">
+                            <p>Shipping Charge</p><p>&#8377; {0}</p>
+                        </div>
+                        <hr />
+                        <div id="total" className="cart-amount">
+                            <p>Total Amount</p><p>&#8377; {totalPrice.toFixed(2)}</p>
+                        </div>
+                    </div>
+                    <div className="total-payment">
+                        <button id="total-pay" className="place-order-btn" onClick={razorPayPlaceOrder}>Place Order</button>
+                    </div>
+                </div>
+            </div>
+           
         </div>
     );
 };
