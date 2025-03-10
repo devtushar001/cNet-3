@@ -4,11 +4,6 @@ import { saveTextEditorController,getTextEditorController, deleteTextEditorContr
 
 const textEditorRouter = express.Router();
 
-// Configure Multer to use memory storage
-// const storage = multer.memoryStorage(); 
-
-// const upload = multer({ storage });
-
 textEditorRouter.post("/save", saveTextEditorController);
 textEditorRouter.get("/get", getTextEditorController);
 textEditorRouter.post("/delete", deleteTextEditorController);
