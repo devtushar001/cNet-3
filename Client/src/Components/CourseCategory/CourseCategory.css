@@ -10,6 +10,7 @@
     width: clamp(270px, 45%, 350px);
     overflow: hidden;
     position: relative;
+    border: 1px solid rgb(214, 214, 214);
 }
 
 .course-category .single-course p {
