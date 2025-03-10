@@ -79,7 +79,7 @@ const Home = () => {
             <p>
               We develop custom web applications tailored to your business needs. Our solutions are scalable, secure, and user-friendly.
             </p>
-             <Link to={`/courses`}> <button className="btn">Get Your Web App</button></Link>  
+             <Link to={`/web-apps`}> <button className="btn">Get Your Web App</button></Link>  
           </div>
           <div className="image">
             <img style={{ height: "330px" }} src={assets.app_development_icon} alt="Web Applications" />

@@ -40,7 +40,7 @@ const NavbarOption = () => {
                </ul>
             </li>
             <li className="navbar-option__dropdown">
-               <Link className='no-style' to="/courses" onClick={() => setNavbar(false)}>Web Apps</Link>
+               <Link className='no-style' to="/web-apps" onClick={() => setNavbar(false)}>Web Apps</Link>
                <ul className="navbar-option__dropdown-menu">
                   {courseCategory.map(({ _id, name }) => (
                      <li key={_id}>
@@ -50,7 +50,7 @@ const NavbarOption = () => {
                </ul>
             </li>
             <li><Link className='no-style' onClick={() => setNavbar(false)} to="/hire-me">Hire me</Link></li>
-            <li className="navbar-option__dropdown">
+            {/* <li className="navbar-option__dropdown">
                <Link className='no-style' to='/projects' onClick={() => setNavbar(false)}>Free-Projects</Link>
                <ul className="navbar-option__dropdown-menu">
                   {escomData.map(({ _id, name }) => (
@@ -59,7 +59,7 @@ const NavbarOption = () => {
                      </li>
                   ))}
                </ul>
-            </li>
+            </li> */}
             <li className="navbar-option__dropdown">
                <Link className='no-style' to='/blogs' onClick={() => { setNavbar(false); setBlogCat('All') }}>Blogs</Link>
                <ul className="navbar-option__dropdown-menu">
