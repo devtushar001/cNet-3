@@ -1,20 +1,24 @@
 import mongoose from "mongoose";
 
-const webAppSchema = new mongoose.Schema({
-    name: {
-        type: String,
-        required: true
+const webAppSchema = new mongoose.Schema(
+    {
+        name: {
+            type: String,
+            required: true,
+            trim: true // Removes leading/trailing spaces
+        },
+        image: {
+            type: String,
+            required: true
+        },
+        link: {
+            type: String,
+            required: true
+        }
     },
-    image: {
-        type: String,
-        required: true
-    }, 
-    link: {
-        type: String,
-        required: true
-    }
-}, {timestamps: true});
+    { timestamps: true }
+);
 
-const webAppModel = mongoose.models.WebApps || mongoose.model("WebApps", webAppSchema);
+const WebAppModel = mongoose.models.WebApp || mongoose.model("WebApp", webAppSchema);
 
-export default webAppModel;
+export default WebAppModel;

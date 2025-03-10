@@ -152,9 +152,10 @@ const ProductDetails = () => {
                 {shopCategories.length === 0 ? (
                     <p className="no-categories">No categories found.</p>
                 ) : (
-                    <div className="category-grid">
+                    <div style={{ display: 'flex', flexWrap: "wrap" }} className="category-grid">
                         {shopCategories.map((category) => (
                             <div key={category._id} className="category-card">
+                                <img src={category.shopCategoryImage} style={{ width: "230px" }} alt="" />
                                 <h3 className="category-name">{category.shopCategoryName}</h3>
                                 <button className="delete-btn" onClick={() => deleteShopCategory(category._id)}>
                                     Delete

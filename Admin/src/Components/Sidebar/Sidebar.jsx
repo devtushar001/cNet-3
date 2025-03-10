@@ -13,14 +13,17 @@ const Sidebar = () => {
                             Add Products
                         </button>
                     </Link>
-                    <Link className="no-style" to="/add-blogs">
+                    <Link className="no-style" to="/product-details">
                         <button>
-                            Add Blogs
+                            Products Details
                         </button>
                     </Link>
-                    <button>
-                        Orders
-                    </button>
+                    <Link to={`/web-apps`}>
+                        <button>
+                            Web Apps
+                        </button>
+                    </Link>
+
                 </div>
                 <div className="content"></div>
             </div>
