@@ -11,9 +11,9 @@ const CourseCategory = () => {
                 <h2 id="h2" >"Explore Our Web Apps – Designed to Enhance Your Experience! Discover Powerful Tools for Development, Productivity, and More!"</h2>
                 {courseCategory.map((item, i) => {
                     return (
-                        <div className="single-course">
+                        <div key={i} className="single-course">
                             <img src={item.img} alt="" />
-                            <Link to={`/courses/${item._id}`}><p>{item.name}</p></Link>
+                            <Link className="no-style" to={`/courses/${item._id}`}><p>{item.name}</p></Link>
                         </div>
                     )
                 })}
