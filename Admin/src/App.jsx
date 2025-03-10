@@ -7,6 +7,7 @@ import Sidebar from './Components/Sidebar/Sidebar';
 import { ToastContainer } from 'react-toastify';
 import Blogs from './Pages/Blogs/Blogs';
 import ProductDetails from './Pages/ProductDetails/ProductDetails';
+import WebApps from './Pages/WebApps/WebApps';
 
 function App() {
 
@@ -18,8 +19,9 @@ function App() {
       <Routes >
         <Route path='/' element={<Home />} />
         <Route path='/add-products' element={<Products />} />
-        <Route path='/add-blogs' element={<Blogs/>} />
-        <Route path='/product-details' element={<ProductDetails/>} />
+        <Route path='/add-blogs' element={<Blogs />} />
+        <Route path='/product-details' element={<ProductDetails />} />
+        <Route path='/web-apps' element={<WebApps />} />
       </Routes>
     </>
   )
