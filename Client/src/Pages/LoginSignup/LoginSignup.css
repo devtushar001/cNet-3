@@ -1,50 +1,35 @@
 .login-signup {
-    width: 89vw;
+    max-width: 85vw;
     margin: 30px auto;
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 12px;
-    border: 1px solid rgb(202, 202, 202);
-    padding: 30px;
+    gap: 25px;
+    border: 1px solid rgb(211, 211, 211);
+    padding: 25px;
 }
 
-/* Ensure buttons maintain a consistent look */
-.login-signup .left button,
-.login-signup .right button {
-    padding: 8px 30px;
-    cursor: pointer;
-}
-
-/* Adjust right section */
 .login-signup .right {
-    width: 100%;
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 12px;
 }
 
+.login-signup .left button{
+   padding: 7px 12px;
+   cursor: pointer;
+}
+      
 .login-signup .right input {
     height: 35px;
     padding-left: 12px;
 }
 
-/* Responsive adjustments */
-@media screen and (max-width: 768px) {
+.login-signup .right button {
+    padding: 7px 30px;
+}
+
+@media (max-width: 768px) {
     .login-signup {
-        grid-template-columns: 1fr; /* Stack items vertically */
-        padding: 20px; /* Reduce padding for smaller screens */
-    }
-
-    .login-signup .left {
-        text-align: center; /* Center align text/buttons */
-    }
-    
-    .login-signup .right {
-        align-items: center; /* Center align input fields */
-    }
-
-    .login-signup .right input {
-        width: 100%; /* Full width input fields */
-        max-width: 300px; /* Prevent excessive stretching */
+        grid-template-columns: 1fr;
     }
 }
