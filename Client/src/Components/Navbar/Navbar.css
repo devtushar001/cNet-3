@@ -104,7 +104,7 @@
 @media (max-width: 480px) {
   .navbar {
     height: 73px;
-    padding: 0 10px;
+    /* padding: 0 10px; */
   }
 
   .navbar .left {
@@ -119,8 +119,8 @@
     height: 35px;
   }
 
-  .navbar .right button {
+  /* .navbar .right button {
     padding: 6px 12px;
     font-size: 12px;
-  }
-}
+  } */  
+} 

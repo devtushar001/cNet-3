@@ -100,7 +100,7 @@ const LoginSignup = () => {
           type="password"
         />
         {signUp && (
-          <input
+          <input  
             value={userData.confirmPassword}
             onChange={(e) => setUserData((prev) => ({ ...prev, confirmPassword: e.target.value }))}
             placeholder="Confirm password"

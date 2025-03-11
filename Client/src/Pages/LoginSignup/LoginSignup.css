@@ -1,75 +1,50 @@
 .login-signup {
-  margin: 50px auto 50px auto;
-  display: flex;
-  border: 1px solid rgb(0, 157, 255);
-  width: 70vw;
-  font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
-  color: rgb(89, 89, 89);
+    width: 89vw;
+    margin: 30px auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    border: 1px solid rgb(202, 202, 202);
+    padding: 30px;
 }
 
-.login-signup .left {
-  width: 25%;
-  border-right: 1px solid rgb(0, 157, 255);
-  padding: 20px;
-  display: flex;
-  flex-direction: column;
-  color: rgb(110, 110, 110);
-  position: relative;
-  align-items: center;
-  /* font-size: 120%; */
-  background-color: rgb(231, 210, 159);
+/* Ensure buttons maintain a consistent look */
+.login-signup .left button,
+.login-signup .right button {
+    padding: 8px 30px;
+    cursor: pointer;
 }
 
-.login-signup .left button {
-  padding: 10px 40px;
-  position: absolute;
-  bottom: 30px;
-  align-content: center;
-  text-align: center;
-  background: transparent;
-  cursor: pointer;
-  border: 2px solid #00b3ff;
-  font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
-  color: #00a2ff;
-  border-radius: 50px;
-  transition: all ease 0.2s;
-
-}
-
-.login-signup .left button:hover {
-  background-color: #00a2ff;
-  color: white;
-  /* border: none; */
-}
-
+/* Adjust right section */
 .login-signup .right {
-  width: 40%;
-  padding: 20px;
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-}
-
-.login-signup .right .links {
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
 }
 
 .login-signup .right input {
-  height: 35px;
-  border: none;
-  outline: none;
-  border-bottom: 1px solid rgb(195, 195, 195);
-  color: rgb(151, 151, 151);
-  padding-left: 10px;
+    height: 35px;
+    padding-left: 12px;
 }
 
-.login-signup .right button {
-  height: 35px;
-  cursor: pointer;
-  border: none;
-  background-color: goldenrod;
-  color: white;
+/* Responsive adjustments */
+@media screen and (max-width: 768px) {
+    .login-signup {
+        grid-template-columns: 1fr; /* Stack items vertically */
+        padding: 20px; /* Reduce padding for smaller screens */
+    }
+
+    .login-signup .left {
+        text-align: center; /* Center align text/buttons */
+    }
+    
+    .login-signup .right {
+        align-items: center; /* Center align input fields */
+    }
+
+    .login-signup .right input {
+        width: 100%; /* Full width input fields */
+        max-width: 300px; /* Prevent excessive stretching */
+    }
 }
