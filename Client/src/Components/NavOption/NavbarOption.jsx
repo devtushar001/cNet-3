@@ -3,9 +3,10 @@ import { Link } from 'react-router-dom';
 import './NavbarOption.css';
 import { EscomContext } from '../../Context/escomContext';
 import { blogsCategory, courseCategory, escomData } from '../../assets/escomData';
+import { imageData } from '../../assets/dochakiData';
 
 const NavbarOption = () => {
-   const { setNavbar, setBlogCat, setCourseCat, setShopCat, user, backend_url } = useContext(EscomContext);
+   const { setNavbar, setBlogCat, setCourseCat, setShopCat, user, backend_url, navbar } = useContext(EscomContext);
    const [shopCategory, setShopCategory] = useState([]);
 
    useEffect(() => {
@@ -72,9 +73,18 @@ const NavbarOption = () => {
             </li>
             <li><Link className='no-style' onClick={() => setNavbar(false)} to="/videos">Videos</Link></li>
             <li><Link className='no-style' onClick={() => setNavbar(false)} to="/about-me">About me</Link></li>
+
+         </ul>
+         <div className="links">
+            {navbar ?
+               <>
+                  <Link style={{ marginTop: "5px" }} to='/search-querry'><img src={imageData.search_icon} alt="Search Icon" /></Link>
+                  <Link style={{ marginTop: "5px" }} to='/contact-us'> <img src={imageData.location_icon} alt="Location Icon" /></Link>
+               </>
+               : ""}
             {!user ? <Link className='no-style' to='/login-signup'><button className="navbar-option__button">Login</button></Link> :
                <Link className='no-style' to='/user-profile'><button className="navbar-option__button">Welcome {user.name.slice(0, 5)}...</button></Link>}
-         </ul>
+         </div>
       </nav>
    );
 };
