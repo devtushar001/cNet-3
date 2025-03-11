@@ -21,8 +21,8 @@ const Navbar = () => {
             {!navbar ? <span>Menu</span> : <span>Close</span>}
             {!navbar ?
               <>
-                <Link id="links" style={{marginTop: "5px"}} to='/search-querry'><img src={imageData.search_icon} alt="Search Icon" /></Link>
-                <Link id="links" style={{marginTop: "5px"}} to='/contact-us'> <img src={imageData.location_icon} alt="Location Icon" /></Link>
+                <Link id="links" style={{ marginTop: "5px" }} to='/search-querry'><img src={imageData.search_icon} alt="Search Icon" /></Link>
+                <Link id="links" style={{ marginTop: "5px" }} to='/contact-us'> <img src={imageData.location_icon} alt="Location Icon" /></Link>
               </>
               : ""}
           </div>

@@ -22,14 +22,15 @@
 .login-signup .right input {
     height: 35px;
     padding-left: 12px;
-}
+}       
 
 .login-signup .right button {
     padding: 7px 30px;
+    cursor: pointer;
 }
 
 @media (max-width: 768px) {
     .login-signup {
         grid-template-columns: 1fr;
     }
-}
+} 
