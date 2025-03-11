@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import ImageUploader from "../../Components/ImageUploader/ImageUploader";
 import './WebApps.css';
 
-const backend_url = "http://localhost:10017"; // Replace with actual backend URL
+const backend_url = "http://localhost:10017"; 
 
 const WebApps = () => {
     const [webApps, setWebApps] = useState([]);
@@ -17,7 +17,6 @@ const WebApps = () => {
         link: "",
     });
 
-    // ✅ Fetch all web apps
     const fetchWebApps = async () => {
         setLoading(true);
         try {
@@ -39,7 +38,6 @@ const WebApps = () => {
         fetchWebApps();
     }, []);
 
-    // ✅ Delete a web app
     const deleteWebApp = async (id) => {
         if (!window.confirm("Are you sure you want to delete this web app?")) return;
 
@@ -59,12 +57,10 @@ const WebApps = () => {
         }
     };
 
-    // ✅ Handle input change
     const handleChange = (e) => {
         setData({ ...data, [e.target.name]: e.target.value });
     };
 
-    // ✅ Handle form submission (Create WebApp)
     const handleSubmit = async () => {
         if (!data.name || !data.link || !webAppImage.image) {
             alert("All fields are required!");
