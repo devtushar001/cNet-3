@@ -12,12 +12,7 @@ const Footer = () => {
 
           <div className="left">
             <div className="logo">
-              <h1 id="i">c</h1>
-              <h1 id="r">N</h1>
-              <h1 id="o">e</h1>
-              <h1 id="c">t</h1>
-              <br />
-              <h1 id="tools">Tools</h1>
+              <img style={{width: "100%"}} src={assets.cNet} alt="" />
             </div>
             <div id="connection">
               <div className="social-media">
@@ -38,17 +33,17 @@ const Footer = () => {
           <div className="middle">
             <h1>Contents</h1>
             <ul>
-              <li><Link to="/">Home</Link> </li>
-              <li><Link to="/contact-us">Contact Us</Link> </li>
-              <li><Link to="/about-us">About Us</Link> </li>
-              <li><Link to="/privacy-policy">Privacy Policy</Link> </li>
-              <li><Link to="/projects">Projects</Link> </li>
+              <li><Link className="no-style" to="/">Home</Link> </li>
+              <li><Link className="no-style" to="/contact-us">Contact Us</Link> </li>
+              <li><Link className="no-style" to="/about-us">About Us</Link> </li>
+              <li><Link className="no-style" to="/privacy-policy">Privacy Policy</Link> </li>
+              <li><Link className="no-style" to="/projects">Projects</Link> </li>
             </ul>
           </div>
           <hr />
           <div className="right">
             <h1>Connect with us</h1>
-            <span>iroc@gmai.com</span><br />
+            <span>iroc@gmai.com</span>
             <span>+91-984-378-4323</span>
           </div>
         </div>

@@ -80,9 +80,6 @@
     transition: 0.3s ease-in-out;
 }
 
-.cart-container .empty-cart .shop-now-btn:hover {
-    background: #0056b3;
-}
 
 @media (max-width: 768px) {
     .cart-container .cart-item {

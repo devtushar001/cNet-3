@@ -88,7 +88,7 @@
 
 .place-order .right-container .cart-item {
   display: flex;
-  gap: 10px;
+  gap: 30px;
   align-items: center;
   border: 1px solid #ddd;
   padding: 10px;
@@ -98,7 +98,7 @@
 
 .place-order .right-container .cart-item img {
   width: 120px;
-  height: auto;
+  height: 100%;
   object-fit: cover;
 }
 

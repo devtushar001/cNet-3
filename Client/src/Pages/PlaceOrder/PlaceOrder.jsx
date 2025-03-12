@@ -31,31 +31,7 @@ const PlaceOrder = () => {
         document.body.appendChild(script);
     }, []);
 
-    const getCart = useCallback(async () => {
-        try {
-            const response = await fetch(`${backend_url}/api/user-cart/get`, {
-                method: "GET",
-                headers: {
-                    "Content-Type": "application/json",
-                    Authorization: `Bearer ${token}`
-                },
-            });
-
-            if (!response.ok) {
-                console.log(response)
-                throw new Error(`Error: ${response.status} - ${response.statusText}`);
-            }
-
-            const data = await response.json();
-            setCartData(data.cart);
-        } catch (error) {
-            console.error("Failed to fetch cart data:", error.message);
-        }
-    }, [backend_url, token, setCartData]);
-
-    useEffect(() => {
-        getCart();
-    }, [getCart]);
+   
 
     const razorPayPlaceOrder = useCallback(async () => {
         if (!data.firstName || !data.lastName || !data.email || !data.phone || !data.fulladdress || !data.street || !data.city || !data.state || !data.zipcode) {

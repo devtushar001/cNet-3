@@ -11,8 +11,6 @@
   padding: 16px;
   background: white;
   justify-content: space-between;
-  /* border-radius: 10px; */
-  /* box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1); */
 }
 
 .user-prfl .user-icon {
@@ -36,13 +34,17 @@
 
 .user-prfl .cart-btn,
 .user-prfl .logout-btn {
-  padding: 8px 14px;
+  min-width: 300px;
+  height: 35px;
   border: none;
   cursor: pointer;
   transition: 0.3s ease-in-out;
   font-size: 14px;
   font-weight: 500;
   text-decoration: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .user-prfl .cart-btn {
@@ -75,7 +77,6 @@
   padding: 20px;
   margin-bottom: 20px;
   box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
-  /* border-radius: 10px; */
 }
 
 .user-prfl .order-details {
@@ -125,15 +126,13 @@
   display: flex;
   padding: 10px;
   border: 1px solid rgb(224, 224, 224);
-  /* border-radius: 8px; */
+  gap: 5px;
 }
 
 .user-prfl .cart-img {
-  width: 60px;
-  height: 60px;
+  height: 120px;
   object-fit: cover;
   margin-right: 10px;
-  /* border-radius: 5px; */
 }
 
 .user-prfl .no-orders {
@@ -142,11 +141,9 @@
   font-size: 16px;
 }
 
-/* Address Section */
 .user-prfl .address-card {
   background: #fff;
   margin-top: 20px;
-  /* border-radius: 10px; */
 }
 
 .user-prfl .address-card .address-content {
@@ -176,7 +173,6 @@
   color: #222;
 }
 
-/* Responsive Styling */
 @media (max-width: 1024px) {
   .user-prfl {
     width: 90%;
@@ -218,27 +214,17 @@
   }
 
   .user-prfl .order-details {
-    flex-direction: column;
     gap: 10px;
-  }
-
-  .user-prfl .cart-item {
-    flex-direction: column;
-    align-items: center;
   }
 
   .user-prfl .cart-img {
     margin-bottom: 8px;
   }
 
-  .user-prfl .address-card .address-content {
-    flex-direction: column;
-  }
 }
 
 @media (max-width: 480px) {
   .user-prfl .user-info {
-    flex-direction: column;
     padding: 10px;
   }
 

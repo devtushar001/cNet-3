@@ -4,11 +4,33 @@ import { Link } from "react-router-dom";
 import './Cart.css';
 
 const Cart = () => {
-    const { cartData } = useContext(EscomContext);
+    const { cartData, setCartData, backend_url, token } = useContext(EscomContext);
+
+    const getCart = useCallback(async () => {
+        try {
+            const response = await fetch(`${backend_url}/api/user-cart/get`, {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${token}`
+                },
+            });
+
+            if (!response.ok) {
+                console.log(response)
+                throw new Error(`Error: ${response.status} - ${response.statusText}`);
+            }
+
+            const data = await response.json();
+            setCartData(data.cart);
+        } catch (error) {
+            console.error("Failed to fetch cart data:", error.message);
+        }
+    }, [backend_url, token, setCartData]);
 
     useEffect(() => {
-        console.log("Cart Data Updated:", cartData);
-    }, [cartData]); 
+        getCart();
+    }, [getCart]);
 
     return (
         <div className="cart-container">
@@ -16,10 +38,10 @@ const Cart = () => {
                 cartData.map(item => (
                     <div key={item._id} className="cart-item">
                         <Link to={`/shops/${item._id}`}>
-                            <img 
-                                src={item.featuredImg} 
-                                alt={`Image of ${item.title}`} 
-                                className="cart-item-image" 
+                            <img
+                                src={item.featuredImg}
+                                alt={`Image of ${item.title}`}
+                                className="cart-item-image"
                             />
                         </Link>
                         <div className="cart-item-details">
