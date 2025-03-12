@@ -16,7 +16,7 @@ const UserProfile = () => {
   }, [user, navigate]);
 
   const logOut = () => {
-    localStorage.clear(); // Clears all stored data at once
+    localStorage.clear();
     navigate("/");
   };
 
@@ -48,7 +48,7 @@ const UserProfile = () => {
 
       if (orderRes.ok) {
         const orderData = await orderRes.json();
-        console.log(orderData.data)
+        console.log(orderData)
         setOrderData(orderData.data);
         toast.success(orderData.message);
       }

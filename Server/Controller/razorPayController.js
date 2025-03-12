@@ -1,6 +1,6 @@
-import { razorPayInstance } from "../Config/razorPayConfig.js";
-import dotenv from 'dotenv';
-import crypto from 'crypto';
+import dotenv from "dotenv";
+import razorPayInstance from "../Config/razorPayConfig.js"
+import crypto from "crypto";
 import userModel from "../Models/userModel.js";
 import shopProductModel from "../Models/shopProductModel.js";
 import orderModel from "../Models/orderModel.js";
@@ -27,13 +27,13 @@ export const createRazorPayOrderController = async (req, res) => {
     }
 
     const { firstName, lastName, email, street, city, state, fulladdress, zipcode, phone } = req.body;
-
     if (!firstName || !lastName || !email || !street || !city || !state || !fulladdress || !zipcode || !phone) {
       return res.status(400).json({
         success: false,
         message: "All fields are required",
       });
     }
+
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
       return res.status(400).json({
@@ -58,6 +58,8 @@ export const createRazorPayOrderController = async (req, res) => {
       });
     }
 
+    console.log(userCartData)
+
     let totalAmount = 0;
     const productDetails = [];
 
@@ -77,14 +79,14 @@ export const createRazorPayOrderController = async (req, res) => {
       });
     }
 
-    const rPI = razorPayInstance(razorPayKeyId, razorPayKeySecret);
     const options = {
-      amount: Number(totalAmount * 100),
+      amount: totalAmount * 100,
       currency: "INR",
       receipt: `receipt_order_${user._id}`,
     };
-    const razorpayOrder = await rPI.orders.create(options);
-
+    console.log(options)
+    const razorpayOrder = await razorPayInstance.orders.create(options);
+    console.log(razorpayOrder)
     const newOrder = new orderModel({
       userId: user._id,
       cartData: productDetails,
@@ -108,7 +110,6 @@ export const createRazorPayOrderController = async (req, res) => {
         amount: razorpayOrder.amount / 100,
       },
     });
-
     await newOrder.save();
 
     return res.status(201).json({
@@ -119,6 +120,7 @@ export const createRazorPayOrderController = async (req, res) => {
     });
 
   } catch (err) {
+    console.log(err)
     return res.status(500).json({
       success: false,
       message: `Razorpay order creation failed: ${err.message}`,
@@ -133,7 +135,7 @@ export const verifyRazorPayOrderController = async (req, res) => {
     if (!order_id || !payment_id || !signature) {
       return res.status(400).json({
         success: false,
-        message: "Missing required fields"
+        message: "Missing required fields",
       });
     }
 
@@ -144,7 +146,7 @@ export const verifyRazorPayOrderController = async (req, res) => {
     if (generatedSignature !== signature) {
       return res.status(400).json({
         success: false,
-        message: "Payment verification failed"
+        message: "Payment verification failed",
       });
     }
 
@@ -152,7 +154,7 @@ export const verifyRazorPayOrderController = async (req, res) => {
     if (!order) {
       return res.status(404).json({
         success: false,
-        message: "Order not found"
+        message: "Order not found",
       });
     }
 
@@ -164,7 +166,7 @@ export const verifyRazorPayOrderController = async (req, res) => {
     if (!user) {
       return res.status(404).json({
         success: false,
-        message: "User not found"
+        message: "User not found",
       });
     }
 
@@ -179,7 +181,7 @@ export const verifyRazorPayOrderController = async (req, res) => {
   } catch (error) {
     return res.status(500).json({
       success: false,
-      message: `Payment verification failed: ${error.message}`
+      message: `Payment verification failed: ${error.message}`,
     });
   }
 };
@@ -187,8 +189,15 @@ export const verifyRazorPayOrderController = async (req, res) => {
 export const getUserOrderController = async (req, res) => {
   try {
     const userId = req.user._id;
-    console.log(userId);
-    const orders = await orderModel.find({ userId: userId });
+
+    const orders = await orderModel.find({ userId });
+    if (!orders.length) {
+      return res.status(404).json({
+        success: false,
+        message: "No orders found for this user",
+      });
+    }
+
     const ordersWithDetails = await Promise.all(
       orders.map(async (order) => {
         const cartDetails = await getCartDetails(order.cartData);
@@ -198,7 +207,7 @@ export const getUserOrderController = async (req, res) => {
 
     return res.status(200).json({
       success: true,
-      message: "Got it",
+      message: "Orders fetched successfully",
       data: ordersWithDetails,
     });
   } catch (error) {
@@ -211,20 +220,18 @@ export const getUserOrderController = async (req, res) => {
 
 const getCartDetails = async (cartData) => {
   try {
-    const carts = cartData || [];
+    if (!cartData || cartData.length === 0) return [];
 
-    const productPromises = carts.map((cart) =>
-      shopProductModel.findById(cart.productId)
-    );
+    const productPromises = cartData.map((cart) => shopProductModel.findById(cart.productId));
     const products = await Promise.all(productPromises);
 
     return products
       .map((product, index) =>
         product
           ? {
-              ...product.toObject(),
-              quantity: carts[index].quantity,
-            }
+            ...product.toObject(),
+            quantity: cartData[index].quantity,
+          }
           : null
       )
       .filter((product) => product !== null);

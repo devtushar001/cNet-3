@@ -21,7 +21,7 @@ const PlaceOrder = () => {
     });
 
     const totalPrice = useMemo(() => {
-        return cartData.reduce((acc, item) => acc + Number(item.price) * Number(item.quantity), 0);
+        return cartData.reduce((acc, item) => acc + (Number(item.price) * Number(item.quantity)), 0);
     }, [cartData]);
 
     useEffect(() => {
@@ -41,7 +41,10 @@ const PlaceOrder = () => {
                 },
             });
 
-            if (!response.ok) throw new Error(`Error: ${response.status} - ${response.statusText}`);
+            if (!response.ok) {
+                console.log(response)
+                throw new Error(`Error: ${response.status} - ${response.statusText}`);
+            }
 
             const data = await response.json();
             setCartData(data.cart);
@@ -55,6 +58,11 @@ const PlaceOrder = () => {
     }, [getCart]);
 
     const razorPayPlaceOrder = useCallback(async () => {
+        if (!data.firstName || !data.lastName || !data.email || !data.phone || !data.fulladdress || !data.street || !data.city || !data.state || !data.zipcode) {
+            toast.error("Please fill all the fields.");
+            return;
+        }
+
         try {
             const response = await fetch(`${backend_url}/api/razorpay/create-order`, {
                 method: "POST",
@@ -65,12 +73,15 @@ const PlaceOrder = () => {
                 body: JSON.stringify(data),
             });
 
+            console.log(response)
             if (!response.ok) throw new Error("Failed to create Razorpay order");
 
+
             const result = await response.json();
+            console.log(result)
 
             const paymentObject = new window.Razorpay({
-                key: "rzp_test_7EMWMnwaBLDxbZ",
+                key: "rzp_test_ZfSxM1yxM0XAj9",
                 amount: Number(result.amount),
                 currency: "INR",
                 order_id: result.razorpayOrder.id,
@@ -88,7 +99,7 @@ const PlaceOrder = () => {
                                 signature: response.razorpay_signature
                             }),
                         });
-
+                        console.log(verifyResponse)
                         const verifyResult = await verifyResponse.json();
                         if (!verifyResponse.ok) throw new Error(verifyResult.message || "Payment verification failed");
 
@@ -98,9 +109,9 @@ const PlaceOrder = () => {
                     }
                 },
                 prefill: {
-                    name: "John Doe",
-                    email: "johndoe@example.com",
-                    contact: "1234567890",
+                    name: `${data.firstName} ${data.lastName}`,
+                    email: data.email,
+                    contact: data.phone,
                 },
                 theme: {
                     color: "#00506e",
@@ -110,13 +121,13 @@ const PlaceOrder = () => {
             paymentObject.open();
         } catch (error) {
             alert("Error processing the order: " + error.message);
-            console.error("Error:", error);
+            console.log("Error:", error.message);
         }
     }, [backend_url, token, data]);
 
     return (
         <div className="place-order">
-             <div className="right-container">
+            <div className="right-container">
                 <h2>Order Summary</h2>
                 <hr />
                 <div className="cart-items">
@@ -170,9 +181,9 @@ const PlaceOrder = () => {
                     </div>
                 </div>
             </div>
-           
         </div>
     );
 };
+
 
 export default PlaceOrder;

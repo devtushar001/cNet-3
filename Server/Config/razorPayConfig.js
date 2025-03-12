@@ -1,8 +1,10 @@
-import Razorpay from 'razorpay';  // Import Razorpay correctly (with uppercase 'R')
+import Razorpay from "razorpay";
+import dotenv from "dotenv";
+dotenv.config();
 
-export const razorPayInstance = (razorPayKeyId, razorPayKeySecret) => {
-  return new Razorpay({
-    key_id: razorPayKeyId,
-    key_secret: razorPayKeySecret
-  });
-};
+const razorPayInstance = new Razorpay({
+  key_id: process.env.RAZORPAY_KEY_ID,
+  key_secret: process.env.RAZORPAY_KEY_SECRET,
+});
+
+export default razorPayInstance;
