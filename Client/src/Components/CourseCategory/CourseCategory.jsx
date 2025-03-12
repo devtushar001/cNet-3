@@ -6,7 +6,7 @@ import { EscomContext } from "../../Context/escomContext";
 const CourseCategory = () => {
     // const { backend_url } = useContext(EscomContext);
     const backend_url = "http://localhost:10017"
-    const [webApps, setWebApps] = useState([]);
+    const {webApps, setWebApps} = useContext(EscomContext);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
 

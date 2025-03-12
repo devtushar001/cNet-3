@@ -28,7 +28,7 @@ const Navbar = () => {
           </div>
         </div>
         <div className="right">
-          <img onClick={reloadWebPage} src={assets.cNet} alt="Dochaki Logo" />
+          <img onClick={reloadWebPage} src={assets.cNet} alt="techKrt Logo" />
         </div>
       </div>
       <div style={{ height: '71px' }} className="conflict-setup">

@@ -6,7 +6,7 @@ import { blogsCategory, courseCategory } from "../../assets/escomData";
 import { imageData } from "../../assets/dochakiData";
 
 const NavbarOption = () => {
-   const { setNavbar, setBlogCat, setCourseCat, setShopCat, user, backend_url, navbar } =
+   const { setNavbar, setBlogCat, setCourseCat, setShopCat, user, backend_url, navbar, webApps } =
       useContext(EscomContext);
    const [shopCategory, setShopCategory] = useState([]);
 
@@ -36,7 +36,7 @@ const NavbarOption = () => {
 
             <li className="dropdown">
                <Link className="no-style" to="/shops" onClick={() => setNavbar(false)}>
-                  UI Templates
+                  Shops
                </Link>
                <ul className="dropdown-menu">
                   {shopCategory.map(({ _id, shopCategoryName }) => (
@@ -61,11 +61,11 @@ const NavbarOption = () => {
                   Web Apps
                </Link>
                <ul className="dropdown-menu">
-                  {courseCategory.map(({ _id, name }) => (
-                     <li key={_id}>
-                        <Link className="no-style" onClick={() => setNavbar(false)} to={`/courses/${_id}`}>
+                  {webApps.map(({ _id, name, link }) => (
+                     <li onClick={() => { setNavbar(false); setCourseCat(name) }} key={_id}>
+                        <a target="_blank" className="no-style" href={link}>
                            {name}
-                        </Link>
+                        </a>
                      </li>
                   ))}
                </ul>
@@ -111,7 +111,6 @@ const NavbarOption = () => {
             </li>
          </ul>
 
-         {/* Login / User Profile Section */}
          <div className="links">
             {navbar && (
                <>

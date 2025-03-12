@@ -1,174 +1,99 @@
 .navbar-option {
-    width: 100vw;
-    background-color: rgba(219, 219, 219, 0.7);
-    backdrop-filter: blur(10px);
-    position: fixed;
-    left: 0;
-    right: 0;
-    top: 72px;
-    bottom: 0;
+    max-width: 100vw;
     box-sizing: border-box;
-    z-index: 7000;
-    font-family: Arial, sans-serif;
-    padding: 20px;
-    display: flex;
-    justify-content: space-between;
-}
-
- .no-style {
-    text-decoration: none;
-    color: rgb(66, 66, 66);
-    transition: color 0.3s ease;
-}
-
- .menu-item {
-    display: flex;
-    gap: 30px;
-    font-size: 20px;
-    list-style: none;
-    padding: 0;
-}
-
-.menu-item li {
-    cursor: pointer;
-    position: relative;
-    transition: transform 0.3s ease;
-}
-
-.menu-item li:hover {
-    transform: translateY(-2px);
-    color: rgb(0, 72, 135);
-}
-
-.dropdown {
-    position: relative;
-}
-
-.dropdown-menu {
-    position: absolute;
-    top: 100%;
+    display: grid;
+    grid-template-columns: 5fr 2fr;
+    padding-top: 30px;
+    padding-left: 30px;
+    height: 100vh;
+    scrollbar-width: 100vh;
+    background-color: rgba(223, 223, 223, 0.295);
+    backdrop-filter: blur(25px);
+    position: fixed;
+    top: 71px;
+    right: 0;
     left: 0;
-    background-color: rgba(255, 255, 255, 0.315);
-    border: 1px solid rgb(233, 233, 233);
-    min-width: 200px;
-    display: none;
-    flex-wrap: wrap;
-    width: 640px;
-    padding: 10px 0;
-    box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.1);
+    z-index: 7;
+    bottom: 0;
 }
 
-.dropdown:hover .dropdown-menu {
+.no-style {
+    list-style: none;
+    text-decoration: none;
+    color: rgb(61, 61, 61);
+    font-size: 19px;
+}
+
+.navbar-option .menu-item {
     display: flex;
+    position: relative;
+    gap: 20px;
 }
 
-.dropdown-menu li {
-    padding: 10px 15px;
-    font-size: 17px;
-    white-space: nowrap;
+.navbar-option .menu-item .dropdown .dropdown-menu {
+    min-width: 340px;
+    position: absolute;
+    top: 30px;
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
 }
 
-.dropdown-menu li:hover {
-    background-color: rgba(0, 95, 40, 0.308);
+.navbar-option .menu-item .dropdown .dropdown-menu li {
+    display: none;
+}
+
+.navbar-option .menu-item .dropdown:hover .dropdown-menu li {
+    display: block;
 }
 
 .navbar-option .links {
+    width: 100%;
     display: flex;
-    gap: 12px;
-}
-
-.navbar-option .links button {
-    padding: 12px 30px;
-    width: 170px;
-    border-radius: 20px;
-    cursor: pointer;
-    border: 2px solid rgb(0, 65, 126);
+    overflow: hidden;
+    display: flex;
+    justify-content: space-evenly;
+    margin-right: 30px;
 }
 
 .navbar-option .links img {
-    width: 35px;
+    width: 25px;
 }
 
-@media screen and (max-width: 1024px) {
-    .menu-item {
-        gap: 20px;
-        font-size: 18px;
-    }
-
-    .dropdown-menu {
-        width: 500px;
-    }
+.navbar-option .links button {
+    min-width: 140px;
+    padding: 7px 20px;
+    border-radius: 20px;
+    border: 2px solid rgb(0, 80, 117);
+    cursor: pointer;
+    background: transparent;
+    color: rgb(0, 80, 117);
 }
 
-@media screen and (max-width: 768px) {
+@media (max-width: 925px) {
     .navbar-option {
-        height: auto;
-        padding: 15px;
+        grid-template-columns: 1fr 1fr;
     }
 
-    .menu-item {
+    .navbar-option .menu-item {
         flex-direction: column;
-        gap: 15px;
-        font-size: 16px;
     }
 
-    .dropdown {
-        width: 100%;
+    .navbar-option .menu-item {
+        flex-direction: column;
     }
 
-    .dropdown-menu {
-        position: static;
-        width: 100%;
-        display: none;
-    }
-
-    .dropdown:hover .dropdown-menu {
-        display: flex;
-    }
-
-    .dropdown-menu li {
-        width: 100%;
-        padding: 10px;
-        display: flex;
-        flex-wrap: wrap;
-    }
-
-    .navbar-option .links {
-        display: flex;
-        margin-top: 15px;
-    }
-
-    .navbar-option .links button {
-        width: 150px;
-        padding: 10px;
-    }
-
-    .navbar-option .links img {
-        width: 30px;
+    .navbar-option .menu-item .dropdown .dropdown-menu {
+        flex-direction: column;
+        max-width: 100vw;
+        height: auto;
+        left: 100px;
     }
 }
 
-@media screen and (max-width: 480px) {
-    .menu-item {
-        font-size: 14px;
-    }
 
-    .dropdown-menu {
-        width: 100%;
-        padding: 5px 0;
-    }
-
-    .dropdown-menu li {
-        font-size: 14px;
-        padding: 8px;
-    }
-
-    .navbar-option .links button {
-        width: 130px;
-        padding: 8px;
-    }
-
-    .navbar-option .links img {
-        width: 25px;
+@media (max-width: 525px) {
+    .navbar-option {
+        grid-template-columns: 1fr;
     }
 }

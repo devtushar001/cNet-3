@@ -19,7 +19,7 @@ const EscomContextProvider = ({ children }) => {
   const [blogCat, setBlogCat] = useState("All");
   const [shopCat, setShopCat] = useState("All");
   const [cartItem, setCartItem] = useState([]);
-
+  const [webApps, setWebApps] = useState([]);
   // const backend_url = "http://localhost:10017";
   const backend_url = "https://techkart-backend.onrender.com"
 
@@ -150,6 +150,7 @@ const EscomContextProvider = ({ children }) => {
       cartItem,
       setCartItem,
       readDate,
+      webApps, setWebApps,
     }),
     [
       data,
@@ -166,6 +167,7 @@ const EscomContextProvider = ({ children }) => {
       token,
       productData,
       cartItem,
+      webApps, setWebApps
     ]
   );
 
