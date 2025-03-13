@@ -27,7 +27,8 @@ export const registerController = async (req, res) => {
 
     const token = user.generateToken();
     user.password = undefined;
-console.log(process.env.SENDER_EMAIL);
+    const otp = Math.ceil(Math.random()*1000000);
+    console.log(otp)
     const mailOption = {
       from: process.env.SENDER_EMAIL,
       to: email,
