@@ -1,43 +1,24 @@
 .loading {
-  width: 300px;
-  height: 100px;
+  height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
-  animation: moove 1s ease-in-out 0 infinite;
+  background-color: #f4f4f4; /* Light background for better contrast */
 }
 
-@keyframes moove {
-  0% {
-    border-radius: 0%;
-  }
-
-100% {
+.loading .spinner {
+  width: 80px;
+  height: 80px;
   border-radius: 50%;
-}
-}
-
-.loading #i {
-  width: 25%;
-  height: 100%;
-  background: linear-gradient(90deg, rgb(203, 0, 0), rgb(9, 109, 0));
+  position: relative;
+  background: conic-gradient(rgb(0, 132, 219), rgb(230, 23, 0), rgb(0, 243, 170));
+  mask: radial-gradient(circle, rgba(0, 0, 0, 0) 50%, rgba(0, 0, 0, 1) 51%);
+  -webkit-mask: radial-gradient(circle, rgba(0, 0, 0, 0) 50%, rgba(0, 0, 0, 1) 51%);
+  animation: spin 1s linear infinite;
 }
 
-.loading #r {
-  background: linear-gradient(90deg,  rgb(9, 109, 0), rgb(0, 26, 171));
-
-  width: 25%;
-  height: 100%;
-}
-
-.loading #o {
-  background: linear-gradient(90deg, rgb(0, 26, 171), darkorange);
-  width: 25%;
-  height: 100%;
-}
-
-.loading #c {
-  background: linear-gradient(90deg, darkorange, rgb(203, 0, 0));
-  width: 25%;
-  height: 100%;
+@keyframes spin {
+  100% {
+    transform: rotate(360deg);
+  }
 }

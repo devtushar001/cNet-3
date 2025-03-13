@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import "./NavbarOption.css";
 import { EscomContext } from "../../Context/escomContext";
-import { blogsCategory, courseCategory } from "../../assets/escomData";
+import { assets, blogsCategory, courseCategory } from "../../assets/escomData";
 import { imageData } from "../../assets/dochakiData";
 
 const NavbarOption = () => {
@@ -114,11 +114,11 @@ const NavbarOption = () => {
          <div className="links">
             {navbar && (
                <>
-                  <Link style={{ marginTop: "5px" }} to="/search-querry">
-                     <img src={imageData.search_icon} alt="Search Icon" />
+                  <Link onClick={() => setNavbar(false)} style={{ marginTop: "5px" }} to="/user-profile">
+                     <img src={assets.user_icon} alt="Location Icon" />
                   </Link>
-                  <Link style={{ marginTop: "5px" }} to="/contact-us">
-                     <img src={imageData.location_icon} alt="Location Icon" />
+                  <Link onClick={() => setNavbar(false)} style={{ marginTop: "5px" }} to="/cart">
+                     <img src={assets.cart_icon} alt="Search Icon" />
                   </Link>
                </>
             )}

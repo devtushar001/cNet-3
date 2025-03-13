@@ -3,6 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import "./ShowShop.css";
 import { EscomContext } from "../../Context/escomContext";
 import { toast } from "react-toastify";
+import Loading from "../Loading/Loading";
 
 const ShowShop = () => {
     const { shopId } = useParams();
@@ -49,7 +50,9 @@ const ShowShop = () => {
                     method: "GET",
                     headers: { "Content-Type": "application/json" }
                 });
+
                 if (!response.ok) throw new Error(`Error: ${response.status} - ${response.statusText}`);
+
                 const data = await response.json();
                 setSingleProduct(data);
             } catch (error) {
@@ -68,7 +71,7 @@ const ShowShop = () => {
         }
     }, [cartItem, singleProduct]);
 
-    if (!singleProduct) return <h2 className="error-message">Product not found!</h2>;
+    if (!singleProduct) return <Loading />;
 
     const isOutOfStock = cartQuantity >= singleProduct.stock;
 
@@ -104,19 +107,15 @@ const ShowShop = () => {
         }
     };
 
-
-
-
-
-
     return (
         <div className="show-shop-product">
             <div className="left-cont">
                 <img src={singleProduct?.featuredImg} alt={singleProduct?.title || "Product Image"} />
                 <div className="gallery-image">
-                    {singleProduct?.galleryImg?.map((single_img, i) => (
-                        <img key={i} src={single_img} alt={`Gallery ${i}`} />
-                    ))}
+                    {singleProduct?.galleryImg?.length > 0 &&
+                        singleProduct.galleryImg.map((single_img, i) => (
+                            <img key={i} src={single_img} alt={`Gallery ${i}`} />
+                        ))}
                 </div>
             </div>
             <div className="right-cont">
@@ -128,26 +127,30 @@ const ShowShop = () => {
                 <div className="quantity">
                     <div
                         onClick={() => updateCart(singleProduct._id, "remove")}
-                        style={{ pointerEvents: cartQuantity === 0 ? "none" : "auto", opacity: cartQuantity === 0 ? 0.2 : 1 }}>
+                        style={{
+                            pointerEvents: cartQuantity === 0 ? "none" : "auto",
+                            opacity: cartQuantity === 0 ? 0.2 : 1,
+                        }}
+                    >
                         -
                     </div>
                     <div>{cartQuantity ?? "Loading..."}</div>
                     <div
                         onClick={() => updateCart(singleProduct._id, "add")}
-                        style={{ pointerEvents: isOutOfStock ? "none" : "auto", opacity: isOutOfStock ? 0.2 : 1 }}>
+                        style={{
+                            pointerEvents: isOutOfStock ? "none" : "auto",
+                            opacity: isOutOfStock ? 0.2 : 1,
+                        }}
+                    >
                         +
                     </div>
                 </div>
 
                 <div className="buttons">
-                    <button
-                        onClick={() => updateCart(singleProduct._id, "add")}
-                        disabled={isOutOfStock}>
+                    <button onClick={() => updateCart(singleProduct._id, "add")} disabled={isOutOfStock}>
                         Add to cart
                     </button>
-                    <button
-                        onClick={handlePurchase}
-                        disabled={cartQuantity === 0}>
+                    <button onClick={handlePurchase} disabled={cartQuantity === 0}>
                         Purchase
                     </button>
                 </div>

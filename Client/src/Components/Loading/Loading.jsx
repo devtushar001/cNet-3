@@ -5,10 +5,9 @@ const Loading = () => {
    return (
      <>
         <div className="loading">
-           <div id="i"></div>
-           <div id="r"></div>
-           <div id="o"></div>
-           <div id="c"></div>
+          <div className="spinner">
+            
+          </div>
         </div>
      </>
    )

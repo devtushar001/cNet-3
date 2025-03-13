@@ -16,13 +16,13 @@ const Navbar = () => {
     <>
       <div className="navbar">
         <div className="left">
-          <div onClick={() => setNavbar(!navbar)} className="menu-icon">
-            <img src={!navbar ? imageData.menu_icon : imageData.close_icon} alt="Menu Icon" />
-            {!navbar ? <span>Menu</span> : <span>Close</span>}
+          <div className="menu-icon">
+            <img onClick={() => setNavbar(!navbar)} src={!navbar ? imageData.menu_icon : imageData.close_icon} alt="Menu Icon" />
+            {!navbar ? <span onClick={() => setNavbar(!navbar)}>Menu</span> : <span onClick={() => setNavbar(!navbar)}>Close</span>}
             {!navbar ?
               <>
-                <Link id="links" style={{ marginTop: "5px" }} to='/search-querry'><img src={imageData.search_icon} alt="Search Icon" /></Link>
-                <Link id="links" style={{ marginTop: "5px" }} to='/contact-us'> <img src={imageData.location_icon} alt="Location Icon" /></Link>
+                <Link id="links" style={{ marginTop: "5px" }} to='/cart'><img src={assets.cart_icon} alt="Search Icon" /></Link>
+                <Link id="links" style={{ marginTop: "5px" }} to='/user-profile'> <img src={assets.user_icon} alt="Location Icon" /></Link>
               </>
               : ""}
           </div>

@@ -1,6 +1,7 @@
 import React from "react";
 import './Courses.css';
 import CourseCategory from "../../Components/CourseCategory/CourseCategory";
+import Loading from "../../Components/Loading/Loading";
 
 const Courses = () => {
     return (

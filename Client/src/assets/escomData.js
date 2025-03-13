@@ -60,6 +60,8 @@ import react_icon from './physics.png';
 import node_icon from './node-js.png';
 import layout_icon from './layout.png';
 import app_development_icon from './app-development.png';
+import orders_icon from "./package.png";
+import cart_icon from './shopping-cart.png';
 
 export const assets = {
   large,
@@ -98,7 +100,9 @@ export const assets = {
   react_icon,
   node_icon,
   layout_icon,
-  app_development_icon
+  app_development_icon,
+  orders_icon,
+  cart_icon
 };
 
 export const escomData = [
