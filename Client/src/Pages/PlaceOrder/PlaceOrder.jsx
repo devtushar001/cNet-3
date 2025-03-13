@@ -31,7 +31,7 @@ const PlaceOrder = () => {
         document.body.appendChild(script);
     }, []);
 
-   
+
 
     const razorPayPlaceOrder = useCallback(async () => {
         if (!data.firstName || !data.lastName || !data.email || !data.phone || !data.fulladdress || !data.street || !data.city || !data.state || !data.zipcode) {

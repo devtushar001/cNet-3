@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import './Cart.css';
 
 const Cart = () => {
-    const { cartData, setCartData, backend_url, token } = useContext(EscomContext);
+    const { cartData, setCartData, backend_url, token,addToCart } = useContext(EscomContext);
 
     const getCart = useCallback(async () => {
         try {
@@ -26,7 +26,7 @@ const Cart = () => {
         } catch (error) {
             console.error("Failed to fetch cart data:", error.message);
         }
-    }, [backend_url, token, setCartData]);
+    }, [ addToCart]);
 
     useEffect(() => {
         getCart();
@@ -61,7 +61,7 @@ const Cart = () => {
             </div>
             <div className="place-order-button">
                 <Link to="/place-order">
-                <button className="place-order-btn">Place Order</button>
+                    <button className="place-order-btn">Place Order</button>
                 </Link>
             </div>
         </>
