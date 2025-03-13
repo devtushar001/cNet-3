@@ -1,50 +1,64 @@
 import userModel from "../Models/userModel.js";
+import { transporter } from "../Config/nodeMailer.js";
+import dotenv from 'dotenv';
+
+dotenv.config();
 
 export const registerController = async (req, res) => {
   try {
     const { name, email, password, contact } = req.body;
 
     if (!name || !email || !password || !contact) {
-      return res.status(505).send({
+      return res.status(400).json({
         success: false,
-        message: 'please provide all fields'
-      })
+        message: 'Please provide all required fields'
+      });
     }
 
     const existingUser = await userModel.findOne({ email });
     if (existingUser) {
-      return res.status(500).send({
+      return res.status(409).json({
         success: false,
-        message: `Email ${email} Allready Exist!`
-      })
+        message: `Email ${email} already exists!`
+      });
     }
 
     const user = await userModel.create({ name, email, password, contact, cartData: [] });
-    console.log(user);
 
     const token = user.generateToken();
     user.password = undefined;
-    console.log(token);
-    return res.status(200).cookie("token", token, {
+console.log(process.env.SENDER_EMAIL);
+    const mailOption = {
+      from: process.env.SENDER_EMAIL,
+      to: email,
+      subject: `Hi ${name}, Welcome to TechKrt!`,
+      text: `Howdy ${name}! Your account has been created with email ID: ${email}`
+    };
+
+    await transporter.sendMail(mailOption);
+
+    return res.status(201).cookie("token", token, {
       expires: new Date(Date.now() + 15 * 24 * 60 * 60 * 1000),
-      secure: process.env.NODE_ENV === "Development" ? true : false,
-      httpOnly: process.env.NODE_ENV === "Development" ? true : false,
-      sameSite: process.env.NODE_ENV === "Development" ? true : false,
-    }).send({
+      secure: process.env.NODE_ENV === "Production",
+      httpOnly: true,
+      sameSite: "Strict",
+    }).json({
       success: true,
-      message: "User Logined Successfully",
+      message: "User Registered Successfully",
       token,
       user
-    })
+    });
+
   } catch (error) {
-    res.status(501).send({
+    console.error(error.name, error.message);
+    res.status(500).json({
       success: false,
-      message: "error in register api",
-      error
-    })
-    console.log(error);
+      message: "Error in register API",
+      error: error.message
+    });
   }
-}
+};
+
 
 
 export const loginController = async (req, res) => {
