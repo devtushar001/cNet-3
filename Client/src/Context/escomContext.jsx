@@ -20,8 +20,8 @@ const EscomContextProvider = ({ children }) => {
   const [shopCat, setShopCat] = useState("All");
   const [cartItem, setCartItem] = useState([]);
   const [webApps, setWebApps] = useState([]);
-  const backend_url = "http://localhost:10017";
-  // const backend_url = "https://techkart-backend.onrender.com";
+ // const backend_url = "http://localhost:10017";
+   const backend_url = "https://techkart-backend.onrender.com";
 
   const getUser = localStorage.getItem("user");
   const token = JSON.parse(localStorage.getItem("token"));
