@@ -12,7 +12,7 @@ const Footer = () => {
 
           <div className="left">
             <div className="logo">
-              <img style={{width: "100%"}} src={assets.cNet} alt="" />
+              <img style={{ width: "100%" }} src={assets.cNet} alt="" />
             </div>
             <div id="connection">
               <div className="social-media">
@@ -43,12 +43,12 @@ const Footer = () => {
           <hr />
           <div className="right">
             <h1>Connect with us</h1>
-            <span>iroc@gmai.com</span>
+            <span>info@ietark.com</span>
             <span>+91-984-378-4323</span>
           </div>
         </div>
         <hr />
-        <p>Copyright &#169; 2027, cNet all rights reserved</p>
+        <p>Copyright &#169; 2027, ietark all rights reserved</p>
       </div>
     </>
   )
