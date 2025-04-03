@@ -6,9 +6,6 @@ import { EscomContext } from "../../Context/escomContext";
 
 const Blogs = () => {
    const { blogCat } = useContext(EscomContext);
-   useEffect(() => {
-      console.log(blogCat);
-   }, [])
 
    const relatedBlogs = blogData.filter((data) => {
       if (blogCat === "All") {

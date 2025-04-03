@@ -79,3 +79,29 @@
 ul li {
     list-style: none;
 }
+
+@media (max-width: 480px) {
+    .hire-me-container {
+        margin: 0;
+    }
+    .hire-me-container .top {
+        flex-direction: column;
+        padding: 20px;
+    }
+
+    .hire-me-container .top .left {
+        width: 100%;
+    }
+ .hire-me-container .middle {
+    flex-direction: column;
+ }
+
+ .hire-me-container .middle .left {
+    width: 100%;
+    display: flex;
+    /* align-items: center; */
+    flex-direction: column;
+    justify-content: center;
+ }
+
+}

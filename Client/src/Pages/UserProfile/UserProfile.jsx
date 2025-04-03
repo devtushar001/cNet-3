@@ -48,7 +48,6 @@ const UserProfile = () => {
 
       if (orderRes.ok) {
         const orderData = await orderRes.json();
-        console.log(orderData)
         setOrderData(orderData.data);
         toast.success(orderData.message);
       }

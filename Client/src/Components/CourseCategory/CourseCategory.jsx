@@ -5,8 +5,7 @@ import { EscomContext } from "../../Context/escomContext";
 import Loading from "../Loading/Loading";
 
 const CourseCategory = () => {
-    const backend_url = "http://localhost:10017";
-    const { webApps, setWebApps } = useContext(EscomContext);
+    const { webApps, setWebApps, backend_url } = useContext(EscomContext);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
 
@@ -40,11 +39,12 @@ const CourseCategory = () => {
 
     return (
         <div className="course-category">
+            {loading && <Loading />}
             <div className="webapp-grid">
                 <h2 id="h2">
                     "Explore Our Web Apps – Designed to Enhance Your Experience! Discover Powerful Tools for Development, Productivity, and More!"
                 </h2>
-                {loading && <Loading />}
+                
                 {error && <p className="error">{error}</p>}
                 {!loading && !error && webApps.length === 0 && (
                     <p className="no-apps">No web apps found.</p>

@@ -49,12 +49,10 @@ const PlaceOrder = () => {
                 body: JSON.stringify(data),
             });
 
-            console.log(response)
             if (!response.ok) throw new Error("Failed to create Razorpay order");
 
 
             const result = await response.json();
-            console.log(result)
 
             const paymentObject = new window.Razorpay({
                 key: "rzp_test_ZfSxM1yxM0XAj9",
@@ -75,7 +73,6 @@ const PlaceOrder = () => {
                                 signature: response.razorpay_signature
                             }),
                         });
-                        console.log(verifyResponse)
                         const verifyResult = await verifyResponse.json();
                         if (!verifyResponse.ok) throw new Error(verifyResult.message || "Payment verification failed");
 
@@ -97,7 +94,6 @@ const PlaceOrder = () => {
             paymentObject.open();
         } catch (error) {
             alert("Error processing the order: " + error.message);
-            console.log("Error:", error.message);
         }
     }, [backend_url, token, data]);
 

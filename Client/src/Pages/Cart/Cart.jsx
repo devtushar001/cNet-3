@@ -17,7 +17,6 @@ const Cart = () => {
             });
 
             if (!response.ok) {
-                console.log(response)
                 throw new Error(`Error: ${response.status} - ${response.statusText}`);
             }
 

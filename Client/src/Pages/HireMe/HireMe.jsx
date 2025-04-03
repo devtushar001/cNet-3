@@ -132,7 +132,7 @@ const HireMe = () => {
                 <div className="bottom">
                     <input value={data.name} onChange={(e) => setData((prev) => ({ ...prev, name: e.target.value }))} type="text" name="name" id="name" placeholder="Enter your name" />
                     <input value={data.email} onChange={(e) => setData((prev) => ({ ...prev, email: e.target.value }))} type="email" name="email" id="email" placeholder="Enter your email id" />
-                    <textarea value={data.message} onChange={(e) => setData((prev) => ({ ...prev, message: e.target.value }))} style={{ padding: "20px" }} name="message" id="message"></textarea>
+                    <textarea value={data.message} onChange={(e) => setData((prev) => ({ ...prev, message: e.target.value }))} name="message" id="message"></textarea>
                     <button onClick={hireMe}>Submit</button>
                 </div>
             </div>

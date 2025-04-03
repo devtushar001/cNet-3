@@ -1,7 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import './AllTools.css';
-import Slider from "../Slider/Slider";
 
 const AllTools = ({ data }) => {
   return (

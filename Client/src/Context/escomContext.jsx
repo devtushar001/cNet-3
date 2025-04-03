@@ -20,7 +20,6 @@ const EscomContextProvider = ({ children }) => {
   const [shopCat, setShopCat] = useState("All");
   const [cartItem, setCartItem] = useState([]);
   const [webApps, setWebApps] = useState([]);
-  // const backend_url = "http://localhost:10017";
   const backend_url = "https://ietark-backend.onrender.com";
 
   const getUser = localStorage.getItem("user");

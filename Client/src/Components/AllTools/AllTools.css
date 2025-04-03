@@ -45,3 +45,45 @@
   border: none;
   font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
 }
+
+@media (max-width: 768px) {
+  .all-tools {
+    width: 90%;
+    height: auto;
+    padding-bottom: 40px;
+  }
+
+  .icon {
+    height: 200px;
+  }
+
+  .all-tools .tools-info .p-info {
+    font-size: 12px;
+  }
+
+  .all-tools button {
+    height: 40px;
+  }
+}
+
+@media (max-width: 480px) {
+  .all-tools {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+  }
+
+  .icon {
+    height: 180px;
+  }
+
+  .all-tools .tools-info .p-info {
+    font-size: 11px;
+    padding: 3px;
+  }
+
+  .all-tools button {
+    font-size: 14px;
+    height: 42px;
+  }
+}
