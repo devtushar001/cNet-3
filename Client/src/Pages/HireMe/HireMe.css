@@ -80,6 +80,40 @@ ul li {
     list-style: none;
 }
 
+@media (max-width: 876px) {
+    .hire-me-container {
+        margin: 20px auto 0 auto;
+    }
+    .hire-me-container .top {
+        flex-direction: column;
+        padding: 20px;
+    }
+
+    .hire-me-container .top .left img  {
+        width: 240px;
+    }
+    .hire-me-container .top .left {
+        display: flex;
+        align-items: center;
+        width: 100%;
+    }
+ .hire-me-container .middle {
+    flex-direction: column;
+ }
+
+ .hire-me-container .middle .left {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+ }
+
+ .hire-me-container .middle .right {
+    width: 100%;
+ }
+
+}
+
 @media (max-width: 480px) {
     .hire-me-container {
         margin: 0;
