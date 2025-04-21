@@ -40,6 +40,7 @@ export const getWebAppByIdController = async (req, res) => {
 };
 
 export const deleteWebAppController = async (req, res) => {
+    console.log(req.body)
     try {
         const { appId } = req.body;
         const deletedWebApp = await WebAppModel.findByIdAndDelete(appId);

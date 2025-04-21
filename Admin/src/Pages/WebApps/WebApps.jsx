@@ -1,19 +1,18 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import ImageUploader from "../../Components/ImageUploader/ImageUploader";
 import './WebApps.css';
-
-const backend_url = "http://localhost:10017"; 
+import { TShakyaContext } from "../../Context/TShakyContext";
 
 const WebApps = () => {
     const [webApps, setWebApps] = useState([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
-    
+    const { backend_url } = useContext(TShakyaContext);
+
     const [webAppImage, setWebAppImage] = useState({ type: "single", selection: false, image: null });
 
     const [data, setData] = useState({
         name: "",
-        image: "",
         link: "",
     });
 
@@ -28,6 +27,7 @@ const WebApps = () => {
                 setError("Failed to fetch web apps");
             }
         } catch (error) {
+            console.error("Error fetching web apps:", error);
             setError("Error fetching web apps");
         } finally {
             setLoading(false);
@@ -38,21 +38,26 @@ const WebApps = () => {
         fetchWebApps();
     }, []);
 
-    const deleteWebApp = async (id) => {
+    const deleteWebApp = async (appId) => {
         if (!window.confirm("Are you sure you want to delete this web app?")) return;
 
         try {
-            const response = await fetch(`${backend_url}/api/web-app/delete/${id}`, {
-                method: "DELETE",
+            const response = await fetch(`${backend_url}/api/web-app/delete`, {
+                method: "POST",
+                headers: {
+                    'Content-Type': "application/json"
+                },
+                body: JSON.stringify({ appId })
             });
             const result = await response.json();
             if (result.success) {
                 alert("WebApp deleted successfully!");
-                setWebApps((prev) => prev.filter((app) => app._id !== id));
+                setWebApps((prev) => prev.filter((app) => app._id !== appId));
             } else {
                 alert(`Failed to delete WebApp: ${result.message}`);
             }
         } catch (error) {
+            console.error("Error deleting WebApp:", error);
             alert("Error deleting WebApp.");
         }
     };
@@ -62,7 +67,7 @@ const WebApps = () => {
     };
 
     const handleSubmit = async () => {
-        if (!data.name || !data.link || !webAppImage.image) {
+        if (!data.name.trim() || !data.link.trim() || !webAppImage.image) {
             alert("All fields are required!");
             return;
         }
@@ -72,9 +77,9 @@ const WebApps = () => {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
-                    name: data.name,
-                    image: webAppImage.image, // Use selected image URL
-                    link: data.link,
+                    name: data.name.trim(),
+                    image: webAppImage.image,
+                    link: data.link.trim(),
                 }),
             });
 
@@ -82,12 +87,13 @@ const WebApps = () => {
             if (result.success) {
                 alert("WebApp created successfully!");
                 fetchWebApps(); // Refresh the list
-                setData({ name: "", image: "", link: "" });
+                setData({ name: "", link: "" });
                 setWebAppImage({ type: "single", selection: false, image: null });
             } else {
                 alert(`Failed to create WebApp: ${result.message}`);
             }
         } catch (error) {
+            console.error("Error creating WebApp:", error);
             alert("Error creating WebApp.");
         }
     };
@@ -120,7 +126,9 @@ const WebApps = () => {
             {/* ✅ Create WebApp Form */}
             <div style={{ marginLeft: "210px" }} className="create-web-apps">
                 <h2>Create Web App</h2>
-                {webAppImage.image && <img style={{ width: "320px" }} src={webAppImage.image} alt="Web App Preview" />}
+                {webAppImage.image && !webAppImage.selection && (
+                    <img style={{ width: "320px" }} src={webAppImage.image} alt="Web App Preview" />
+                )}
                 <br />
                 <input
                     type="text"
@@ -139,8 +147,10 @@ const WebApps = () => {
                 <button onClick={() => setWebAppImage((prev) => ({ ...prev, selection: true }))}>
                     Select Image
                 </button>
-                {webAppImage.selection && <ImageUploader object={webAppImage} imageSelector={setWebAppImage} />}
-                
+                {webAppImage.selection && (
+                    <ImageUploader object={webAppImage} imageSelector={setWebAppImage} />
+                )}
+
                 <button className="create-btn" onClick={handleSubmit}>Create WebApp</button>
             </div>
         </>

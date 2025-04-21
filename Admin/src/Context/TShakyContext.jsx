@@ -5,7 +5,9 @@ export const TShakyaContext = createContext(null);
 const TShakyaContextProvider = ({ children }) => {
     const [sidebar, setSidebar] = useState(false);
     const [content, setContent] = useState('');
-    const backend_url = "https://ietark-backend.onrender.com";
+    // const backend_url = "https://ietark-backend.onrender.com";
+
+    const backend_url = "http://localhost:10017"
     const [singleImageSelector, setSingleImageSelector] = useState(false);
     const [multiImageSelector, setMultimageSelector] = useState(false);
 
